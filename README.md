@@ -145,7 +145,7 @@ Optional method() {
 
 ## Okay, be careful though
 
-Optional without template parameters stands for Optional<any> which means you can assign different types to it.
+Optional without template parameters stands for Optional\<any\> which means you can assign different types to it.
 
 ```java
 Optional method() {
