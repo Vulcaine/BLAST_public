@@ -266,7 +266,7 @@ int someFunctionality() {...}
 
 # Control structures
 
-Control structures are a bit different than in other languages to make the code more readable and simple.
+Control structures are a bit different than other languages to make the code more readable and simple.
 
 ## if statement
 
