@@ -118,7 +118,7 @@ int method(int a..., int b...) pipe(string c) {
 "hello" | method@ 1, 2
 ```
 
-If you define `pipe` on method you ***must*** call the parameters inside with the `pipe operator` however if you don't define it,
+If you define `pipe` on method you ***must*** pass the parameters inside via the `pipe operator` otherwise,
 you have a choice to use the `pipe operator` on the normal method parameters.
 
 ***example***
