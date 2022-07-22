@@ -212,7 +212,7 @@ complexObjectOptional??.someMethod@; // which will use the default value of that
 complexObjectOptional ?? otherValue _. someMethod@;
 ```
 
-In the last line we used continuity `_.` operator. Check out how it works: [Continuity operator](#continuity-operator)
+In the last line we used the continuity `_.` operator. Check out how it works: [Continuity operator](#continuity-operator)
 
 
 # Pipe operator
@@ -391,7 +391,7 @@ Some usages:
 complexObjectOptional ?? otherValue _. someMethod@;
 ```
 
-BLAST stay true to itself :)
+BLAST stays true to itself :)
 
 # Control structures
 
