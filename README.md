@@ -418,10 +418,10 @@ If you don't pass the value to other type but you want to use the variable on-th
 // If only the ComplexObject implements ComplexObjectInterface 
 // or the appropriate constructor is invoked (and not ambiguous) the typecast here is negligible.
 // Otherwise compile error thrown.
-ComplexObjectInterface a = {} as ComplexObject;
+ComplexObjectInterface complexObject = {} as ComplexObject;
 
 // Now you want to call someAction which only available in ComplexObject
-a as ComplexObject _. someAction@;
+complexObject as ComplexObject _. someAction@;
 ```
 
 # Control structures
