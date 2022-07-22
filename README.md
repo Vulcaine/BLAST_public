@@ -111,7 +111,7 @@ await asyncMethod@
 
 # Optional resolution
 
-In BLAST **null value is eliminated**. Welcome the optionals only.
+In BLAST **null value is eliminated**. Welcome the world of optionals.
 The keyword `empty` replaces `null` in a way that we can define empty values (**but empty != null**).
 
 ```java
