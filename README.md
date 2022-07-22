@@ -120,11 +120,15 @@ int varargMethod(int... a, int... b, int... c) {
    return 3;
 }
 
-int varargMethod3(int a, int... b, int... c) {
+int varargMethod2(int a, int... b, int... c) {
    return 3;
 }
 
-int varargMethod2(int... a, int b, int... c) {
+int varargMethodMultipleTypeArgs(int a, String... b, int... c) {
+   return 3;
+}
+
+int varargMethod4(int... a, int b, int... c) {
    return 3;
 } // Not allowed ❌
 ```
@@ -134,6 +138,8 @@ The code above requires a minimum of 3 int values or 3 int arrays/lists which di
 varargMethod@ 1,2,3 // where 'a' is going to be 1, 'b' is 2, 'c' is 3
 varargMethod@ 1,2,3,4,5,6 // where 'a' is going to be [1, 2], 'b' is [3, 4], 'c' is [5, 6]
 varargMethod@ 1,2,3,4 // where 'a' is going to be [1], 'b' is [2], 'c' is [3, 4]
+
+varargMethodMultipleTypeArgs@ 1,2,"a","b","c","d",3,4 // where 'a' is going to be [1,2], 'b' is ["a","b","c","d"], 'c' is [3, 4]
 ```
 
 # Optional resolution
