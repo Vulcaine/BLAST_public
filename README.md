@@ -132,7 +132,7 @@ int varargMethod4(int... a, int b, int... c) {
    return 3;
 } // Not allowed yet ❌
 ```
-The code above requires a minimum of 3 int values or 3 int arrays/lists which divided into three parts.
+The code above requires 3+ int values which divided into three parts.
 **Example: call the method above**
 ```java
 varargMethod@ 1,2,3 // where 'a' is going to be 1, 'b' is 2, 'c' is 3
