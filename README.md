@@ -398,7 +398,7 @@ BLAST stays true to itself :)
 
 BLAST is smart enough most of the time. However sometimes type casting may be useful.
 
-## When typecasting isn't needed
+## When type casting isn't needed
 
 One of the benefits of this left-typed language is that it can easily infer types.
 
@@ -408,7 +408,7 @@ One of the benefits of this left-typed language is that it can easily infer type
 List<ComplexObjectInterface> a = [o1, o2, o3,...];
 ArrayList<ComplexObject> b = a; // BLAST can handle it
 ```
-## When typecasting is needed
+## When type casting is needed
 
 If you don't pass the value to other type but you want to use the variable on-the-fly.
 
