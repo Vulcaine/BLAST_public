@@ -398,7 +398,7 @@ BLAST stays true to itself :)
 
 BLAST is smart enough most of the time. However sometimes type casting may be useful.
 
-## When typecasting not needed
+## When typecasting isn't needed
 
 One of the benefits of this left-typed language is that it can easily infer types.
 
