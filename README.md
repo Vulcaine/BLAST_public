@@ -1,6 +1,6 @@
 # BLAST
 
-This is a public repository to review my current progress.
+This is a public repository to get an overview of this project.
 ## **Please give me a ⭐ if you think my work is worthy**
 
 BLAST is a left-typed language, which means **you only write types on the left side of each declaration and won't see types on the right side**.
