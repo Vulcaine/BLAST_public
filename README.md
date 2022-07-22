@@ -110,6 +110,32 @@ await asyncMethod@
 
 ```
 
+# Dealing with method argument subsets
+
+In BLAST we can define multiple varargs but **vararg must be followed by vararg**.
+
+**Example: Three input sets**
+```java
+int varargMethod(int... a, int... b, int... c) {
+   return 3;
+}
+
+int varargMethod3(int a, int... b, int... c) {
+   return 3;
+}
+
+int varargMethod2(int... a, int b, int... c) {
+   return 3;
+} // Not allowed ❌
+```
+The code above requires a minimum of 3 int values or 3 int arrays/lists which divided into three parts.
+**Example: call the method above**
+```java
+varargMethod@ 1, 2, 3 // where 'a' is going to be 1, 'b' is 2, 'c' is 3
+varargMethod@ 1,2,3,4,5,6 // where 'a' is going to be [1, 2], 'b' is [3, 4], 'c' is [5, 6]
+varargMethod@ 1,2,3,4 // where 'a' is going to be [1], 'b' is [2], 'c' is [3, 4]
+```
+
 # Optional resolution
 
 In BLAST **null value is eliminated**. Welcome the world of optionals.
