@@ -131,7 +131,7 @@ int varargMethod2(int... a, int b, int... c) {
 The code above requires a minimum of 3 int values or 3 int arrays/lists which divided into three parts.
 **Example: call the method above**
 ```java
-varargMethod@ 1, 2, 3 // where 'a' is going to be 1, 'b' is 2, 'c' is 3
+varargMethod@ 1,2,3 // where 'a' is going to be 1, 'b' is 2, 'c' is 3
 varargMethod@ 1,2,3,4,5,6 // where 'a' is going to be [1, 2], 'b' is [3, 4], 'c' is [5, 6]
 varargMethod@ 1,2,3,4 // where 'a' is going to be [1], 'b' is [2], 'c' is [3, 4]
 ```
