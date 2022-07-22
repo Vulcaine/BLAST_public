@@ -112,7 +112,7 @@ await asyncMethod@
 In BLAST **null value is eliminated**. Welcome the optionals only.
 The keyword empty replacing a null in a way that we can define empty values (**but empty != null**).
 
-```java class:"lineNo"
+```{java .line-numbers}
 Optional optionalEmpty = empty; // Optional.empty()
 Optional optionalChar = "b"; // Optional.of('b')
 Optional optionalString = "asd"; // Optional.of("asd")
