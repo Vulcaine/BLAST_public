@@ -391,7 +391,8 @@ ArrayList<ComplexObject> b = a; // BLAST can handle it
 If you don't pass the value to other type but you want to use the variable on-the-fly.
 #### Example: use the variable on-the-fly as a supertype
 ```scala
-// If only the ComplexObject implements ComplexObjectInterface or the appropriate constructor is invoked the typecast here is negligible.
+// If only the ComplexObject implements ComplexObjectInterface 
+// or the appropriate constructor is invoked (and not ambiguous) the typecast here is negligible.
 ComplexObjectInterface a = {} as ComplexObject;
 
 // Now you want to call someAction which only available in ComplexObject
