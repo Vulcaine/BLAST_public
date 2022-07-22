@@ -112,17 +112,67 @@ await asyncMethod@
 In BLAST **null value is eliminated**. Welcome the optionals only.
 The keyword empty replacing a null in a way that we can define empty values (**but empty != null**).
 
-```{java .line-numbers}
+```java
 Optional optionalEmpty = empty; // Optional.empty()
 Optional optionalChar = "b"; // Optional.of('b')
 Optional optionalString = "asd"; // Optional.of("asd")
 Optional optionalOptional = optionalString; // Optional.of("asd")
 Optional optionalInt = 3; // Optional.of(3)
 
+// You can't resolve empty into other values
+int emptyNotAllowed = optionalEmpty // Compile error ❌
+
 int optionalResolved = optionalInt; // optionalInt.getOrElse(0);
 ```
 
+You may have noticed in the last line that usually the objects do not have a default value.
+In BLAST its not true, every object has a default value which is the zero arg constructor and this default value can be overridden.
 
+## Be careful
+
+Or don't, because BLAST takes care of you. If you want to pass empty back from a method, you have to set it's return value to Optional
+
+```java
+int method() {
+    return empty
+} // Not allowed ❌
+
+Optional method() {
+    return empty
+} // Allowed ✔️
+```
+
+## Okay, be careful though
+
+Optional without template parameters stands for Optional<any> which means you can assign different types to it.
+
+```java
+Optional method() {
+    return if (
+        a == 3 ? 0;
+        true ? empty; // this branch wouldn't need because Optional's default value is empty, but we put here for clarification
+    )
+}
+
+int a = method@ // What happens?
+```
+
+In the code above if `a == 3` is true the program continues to run without any problem.
+What if isn't true? Well, runtime error happens, duh.
+
+## How to overcome the issue above?
+
+You have two options. 
+- One is to check with if statement if the optional is empty.
+- Second is to use the `nullish coalescing operator (??)`
+
+```java
+// First option
+Optional out = method@
+int a = if out ? out : 0;
+// Second option
+int a = out ??; // Here if out is empty the default value is passed. If we want a different value, we have to write out ?? otherValue;
+```
 
 # Pipe operator
 ```csharp
