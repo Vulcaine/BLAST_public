@@ -1,9 +1,9 @@
 # BLAST
 
-This is a public repository to get an overview of this project.
+This is the public repository for overview of current progress.
 ## **Please give me a ⭐ if you think my work is worthy**
 
-BLAST is a left-typed language, which means **you only write types on the left side of each declaration and won't see types on the right side**.
+BLAST is a left typed language, which means **you only write types to the left side of each declaration and won't see types on the right side**.
 
 1. No imports
 2. Less brackets
@@ -107,6 +107,23 @@ await asyncMethod@
 
 ```
 
+# Optional resolution
+
+In BLAST **null value is eliminated**. Welcome the optionals only.
+The keyword empty replacing a null in a way that we can define empty values (**but empty != null**).
+
+```java class:"lineNo"
+Optional optionalEmpty = empty; // Optional.empty()
+Optional optionalChar = "b"; // Optional.of('b')
+Optional optionalString = "asd"; // Optional.of("asd")
+Optional optionalOptional = optionalString; // Optional.of("asd")
+Optional optionalInt = 3; // Optional.of(3)
+
+int optionalResolved = optionalInt; // optionalInt.getOrElse(0);
+```
+
+
+
 # Pipe operator
 ```csharp
 int method(int a..., int b...) pipe(string c) {
@@ -118,7 +135,7 @@ int method(int a..., int b...) pipe(string c) {
 "hello" | method@ 1, 2
 ```
 
-If you define `pipe` on method you ***must*** pass the parameters inside via the `pipe operator` otherwise,
+If you define `pipe` on method you ***must*** call the parameters inside with the `pipe operator` however if you don't define it,
 you have a choice to use the `pipe operator` on the normal method parameters.
 
 ***example***
@@ -159,7 +176,7 @@ await asyncCallback@
 ```
 
 # Defining classes
-Classes in BLAST determined by file naming postfixes and prefixes. A simple class name doesn't contains any prebuilt postfix or prefix.
+Classes in BLAST determined by file naming postfixes and prefixes. A simple class doesn't include any prebuilt postfix or prefix.
 There are other class types like:
 * Non-dependency injection:
     - Abstract eg AbstractXY.bl
@@ -266,7 +283,7 @@ int someFunctionality() {...}
 
 # Control structures
 
-Control structures are a bit different than other languages to make the code more readable and simple.
+Control structures are a bit different than in other languages to make the code more readable and simple.
 
 ## if statement
 
@@ -327,5 +344,3 @@ for int j = 0; j < 10; j += 2 {
    // code 
 }
 ```
-
-# TO BE CONTINUED..
