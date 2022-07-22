@@ -130,7 +130,7 @@ int varargMethodMultipleTypeArgs(int a, String... b, int... c) {
 
 int varargMethod4(int... a, int b, int... c) {
    return 3;
-} // Not allowed ❌
+} // Not allowed yet ❌
 ```
 The code above requires a minimum of 3 int values or 3 int arrays/lists which divided into three parts.
 **Example: call the method above**
