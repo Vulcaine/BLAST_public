@@ -175,6 +175,40 @@ int a = if out ? out : 0;
 int a = out ??; // Here if out is empty the default value is passed. If we want a different value, we have to write out ?? otherValue;
 ```
 
+## Optional resolution with complex objects
+
+So now you have learned how you can use optionals with primitives. What about objects?
+
+```scala
+ComplexClass complexObject = {};
+Optional<ComplexClass> complexObjectOptional = complexObject;
+```
+
+### Call method on complexObject
+
+To use the code above and call the method without extracting the optional first lets use the `!` operator.
+
+```scala
+ComplexClass complexObject = {};
+Optional<ComplexClass> complexObjectOptional = complexObject;
+
+complexObjectOptional!.someMethod@;
+```
+
+What happen here is that BLAST tries to extract the optional value and call the method on the object.
+
+### What if complexObjectOptional is empty?
+
+** Compile error thrown **
+To overcome this issue use the `nullish coalescing operator (??)`
+
+```scala
+ComplexClass complexObject = {};
+Optional<ComplexClass> complexObjectOptional = complexObject;
+
+complexObjectOptional??.someMethod@; // which will use the default value of that class
+```
+
 # Pipe operator
 ```csharp
 int method(int a..., int b...) pipe(string c) {
