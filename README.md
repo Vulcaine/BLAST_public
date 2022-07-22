@@ -27,9 +27,10 @@ BLAST is a left typed language, which means **you only write types to the left s
     5. [Enum classes](#enum-classes)
     6. [Model classes](#model-classes)
     7. [Adapter classes](#adapter-classes)
-9. [Control structures](#control-structures)
+9. [Continuity operator](#continuity-operator)
+10. [Control structures](#control-structures)
     1. [If statement](#if-statement)
-10. [Loops](#loops)
+11. [Loops](#loops)
     1. [For loop](#for-loop)
 
 # Creating primitives
@@ -208,8 +209,11 @@ Optional<ComplexClass> complexObjectOptional = complexObject;
 
 complexObjectOptional??.someMethod@; // which will use the default value of that class
 // use this if the default value is good enough for you, otherwise you can use the below
-(complexObjectOptional ?? otherValue).someMethod@;
+complexObjectOptional ?? otherValue _. someMethod@;
 ```
+
+In the last line we used continuity `_.` operator. Check out how it works: [Continuity operator](#continuity-operator)
+
 
 # Pipe operator
 ```csharp
@@ -367,6 +371,27 @@ Adapters used to add functionality to model classes.
 // AbcModelAdapter.bl
 int someFunctionality() {...}
 ```
+
+# Continuity operator
+
+In order to eliminate nested evaluations inside parenthesis we introduced the `_.` continuity operator.
+
+## Usages
+
+Some usages:
+* Type casts
+* coalescing operator 
+
+```java
+// Type cast example
+// instead of writing ([1, 2, 3] as XYArrayList). slice@ 1, 2; write the following:
+[1, 2, 3] as XYArrayList _. slice@ 1, 2
+// coalescing operator example
+// instead of writing (complexObjectOptional ?? otherValue).someMethod@; write the following:
+complexObjectOptional ?? otherValue _. someMethod@;
+```
+
+BLAST stay true to itself :)
 
 # Control structures
 
