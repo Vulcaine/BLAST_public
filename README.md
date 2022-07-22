@@ -424,7 +424,7 @@ int var2 = if var == 1 ? 0 : 2;
 
 // Of course you can define if without returning the value to something, this is the void if
 if (
-  var == 2 ? someAction(); // where someAction can return anythingm the value dismissed from stack  
+  var == 2 ? someAction(); // where someAction can return anything the value dismissed from stack  
 );
 
 // using in method
@@ -436,7 +436,7 @@ int method() {
     ); // using true to specify default value instead of 0
 }
 
-// using in mapping function
+// using in a mapping function
 intList | map@ elem -> if (
     elem == 0 ? elem*2;
     true ? elem^2;
