@@ -16,9 +16,10 @@ BLAST is a left typed language, which means **you only write types to the left s
 2. [Creating objects](#creating-objects)
 3. [Local Enums](#local-enums)
 4. [Defining methods](#defining-methods)
-5. [Pipe operator](#pipe-operator)
-6. [Callbacks](#callbacks)
-7. [Defining classes](#defining-classes)
+5. [Optional resolution](#optional-resolution)
+6. [Pipe operator](#pipe-operator)
+7. [Callbacks](#callbacks)
+8. [Defining classes](#defining-classes)
     1. [Simple classes](#simple-classes)
     2. [Instantiation](#instantiation)
     3. [Abstract classes](#abstract-classes)
@@ -26,9 +27,9 @@ BLAST is a left typed language, which means **you only write types to the left s
     5. [Enum classes](#enum-classes)
     6. [Model classes](#model-classes)
     7. [Adapter classes](#adapter-classes)
-8. [Control structures](#control-structures)
+9. [Control structures](#control-structures)
     1. [If statement](#if-statement)
-9. [Loops](#loops)
+10. [Loops](#loops)
     1. [For loop](#for-loop)
 
 # Creating primitives
@@ -110,7 +111,7 @@ await asyncMethod@
 # Optional resolution
 
 In BLAST **null value is eliminated**. Welcome the optionals only.
-The keyword empty replacing a null in a way that we can define empty values (**but empty != null**).
+The keyword `empty` replaces `null` in a way that we can define empty values (**but empty != null**).
 
 ```java
 Optional optionalEmpty = empty; // Optional.empty()
