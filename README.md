@@ -28,9 +28,10 @@ BLAST is a left typed language, which means **you only write types to the left s
     6. [Model classes](#model-classes)
     7. [Adapter classes](#adapter-classes)
 9. [Continuity operator](#continuity-operator)
-10. [Control structures](#control-structures)
+10. [Type casting](#type-casting)
+11. [Control structures](#control-structures)
     1. [If statement](#if-statement)
-11. [Loops](#loops)
+12. [Loops](#loops)
     1. [For loop](#for-loop)
 
 # Creating primitives
@@ -376,7 +377,7 @@ int someFunctionality() {...}
 
 In order to eliminate nested evaluations inside parenthesis we introduced the `_.` continuity operator.
 
-# Type casts
+# Type casting
 
 BLAST is smart enough most of the time. However sometimes type casting may be useful.
 
