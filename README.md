@@ -29,7 +29,7 @@ BLAST is a left typed language, which means **you only write types to the left s
 8. [Control structures](#control-structures)
     1. [If statement](#if-statement)
 9. [Loops](#loops)
-    10. [For loop](#for-loop)
+    1. [For loop](#for-loop)
 
 # Creating primitives
 ```java
