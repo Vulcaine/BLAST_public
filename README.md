@@ -159,7 +159,7 @@ await asyncCallback@
 ```
 
 # Defining classes
-Classes in BLAST determined by file naming postfixes and prefixes. A simple class doesn't include any prebuilt postfix or prefix.
+Classes in BLAST determined by file naming postfixes and prefixes. A simple class name doesn't contains any prebuilt postfix or prefix.
 There are other class types like:
 * Non-dependency injection:
     - Abstract eg AbstractXY.bl
