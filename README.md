@@ -3,7 +3,7 @@
 This is a public repository to review my current progress.
 ## **Please give me a ⭐ if you think my work is worthy**
 
-BLAST is a left-typed language, which means **you only write types to the left side of each declaration and won't see types on the right side**.
+BLAST is a left-typed language, which means **you only write types on the left side of each declaration and won't see types on the right side**.
 
 1. No imports
 2. Less brackets
