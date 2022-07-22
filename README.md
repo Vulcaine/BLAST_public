@@ -376,6 +376,28 @@ int someFunctionality() {...}
 
 In order to eliminate nested evaluations inside parenthesis we introduced the `_.` continuity operator.
 
+# Type casts
+
+BLAST is smart enough most of the time. However sometimes type casting may be useful.
+
+## When typecasting not needed
+One of the benefits of this left-typed language is that it can easily infer types.
+#### Example: passing List of values to a supertype ArrayList
+```scala
+List<ComplexObjectInterface> a = [o1, o2, o3,...];
+ArrayList<ComplexObject> b = a; // BLAST can handle it
+```
+## When typecasting is needed
+If you don't pass the value to other type but you want to use the variable on-the-fly.
+#### Example: use the variable on-the-fly as a supertype
+```scala
+// If only the ComplexObject implements ComplexObjectInterface or the appropriate constructor is invoked the typecast here is negligible.
+ComplexObjectInterface a = {} as ComplexObject;
+
+// Now you want to call someAction which only available in ComplexObject
+a as ComplexObject _. someAction@;
+```
+
 ## Usages
 
 Some usages:
