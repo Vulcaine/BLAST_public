@@ -192,14 +192,14 @@ To use the code above and call the method without extracting the optional first 
 ComplexClass complexObject = {};
 Optional<ComplexClass> complexObjectOptional = complexObject;
 
-complexObjectOptional!.someMethod@;
+complexObjectOptional!.someMethod@; // use this if you are 100% sure that complexObjectOptional never empty
 ```
 
 What happen here is that BLAST tries to extract the optional value and call the method on the object.
 
 ### What if complexObjectOptional is empty?
 
-**Compile error thrown**
+**Compile error thrown.**
 To overcome this issue use the `nullish coalescing operator (??)`
 
 ```scala
@@ -207,6 +207,8 @@ ComplexClass complexObject = {};
 Optional<ComplexClass> complexObjectOptional = complexObject;
 
 complexObjectOptional??.someMethod@; // which will use the default value of that class
+// use this if the default value is good enough for you, otherwise you can use the below
+(complexObjectOptional ?? otherValue).someMethod@;
 ```
 
 # Pipe operator
