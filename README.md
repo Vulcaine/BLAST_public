@@ -199,7 +199,7 @@ What happen here is that BLAST tries to extract the optional value and call the 
 
 ### What if complexObjectOptional is empty?
 
-** Compile error thrown **
+**Compile error thrown**
 To overcome this issue use the `nullish coalescing operator (??)`
 
 ```scala
