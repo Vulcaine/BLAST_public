@@ -161,7 +161,7 @@ int a = method@ // What happens?
 In the code above if `a == 3` is true the program continues to run without any problem.
 What if isn't true? Well, runtime error happens, duh.
 
-## How to overcome the issue above?
+### How to overcome the issue above?
 
 You have two options. 
 - One is to check with if statement if the optional is empty.
