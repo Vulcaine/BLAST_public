@@ -377,6 +377,23 @@ int someFunctionality() {...}
 
 In order to eliminate nested evaluations inside parenthesis we introduced the `_.` continuity operator.
 
+## Usages
+
+Some usages:
+* Type casts
+* coalescing operator 
+
+```java
+// Type cast example
+// instead of writing ([1, 2, 3] as XYArrayList). slice@ 1, 2; write the following:
+[1, 2, 3] as XYArrayList _. slice@ 1, 2
+// coalescing operator example
+// instead of writing (complexObjectOptional ?? otherValue).someMethod@; write the following:
+complexObjectOptional ?? otherValue _. someMethod@;
+```
+
+BLAST stays true to itself :)
+
 # Type casting
 
 BLAST is smart enough most of the time. However sometimes type casting may be useful.
@@ -406,23 +423,6 @@ ComplexObjectInterface a = {} as ComplexObject;
 // Now you want to call someAction which only available in ComplexObject
 a as ComplexObject _. someAction@;
 ```
-
-## Usages
-
-Some usages:
-* Type casts
-* coalescing operator 
-
-```java
-// Type cast example
-// instead of writing ([1, 2, 3] as XYArrayList). slice@ 1, 2; write the following:
-[1, 2, 3] as XYArrayList _. slice@ 1, 2
-// coalescing operator example
-// instead of writing (complexObjectOptional ?? otherValue).someMethod@; write the following:
-complexObjectOptional ?? otherValue _. someMethod@;
-```
-
-BLAST stays true to itself :)
 
 # Control structures
 
