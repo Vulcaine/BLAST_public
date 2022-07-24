@@ -124,7 +124,7 @@ int varargMethod2(int a, int... b, int... c) {
    return 3;
 }
 
-int varargMethodMultipleTypeArgs(int a, String... b, int... c) {
+int varargMethodMultipleTypeArgs(int a..., String... b, int... c) {
    return 3;
 }
 
