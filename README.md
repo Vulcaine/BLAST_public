@@ -41,7 +41,7 @@ int[] b = [1, 2, 3];
 int c = {
     int b = 4;
     return 3 + b;
-};
+}; // resources are closed and memory freed after the block initialization
 any[] d = ["a", 1, false];
 
 int itsFour = if (
