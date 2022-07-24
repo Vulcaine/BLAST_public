@@ -132,8 +132,9 @@ int varargMethod4(int... a, int b, int... c) {
    return 3;
 } // Not allowed yet ❌
 ```
-The code above requires 3+ int values which divided into three parts.
-**Example: call the method above**
+The varargMethod above requires 3+ int values which divided into three parts.
+
+**Example: call the varargMethod and varargMethodMultipleTypeArgs methods**
 ```java
 varargMethod@ 1,2,3 // where 'a' is going to be 1, 'b' is 2, 'c' is 3
 varargMethod@ 1,2,3,4,5,6 // where 'a' is going to be [1, 2], 'b' is [3, 4], 'c' is [5, 6]
