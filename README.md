@@ -3,7 +3,7 @@
 This is the public repository for overview of current progress.
 ## **Please give me a ⭐ if you think my work is worthy**
 
-BLAST is a left typed language, which means **you only write types to the left side of each declaration and won't see types on the right side**.
+BLAST is a left-typed language, which means **you only write types to the left side of each declaration and won't see types on the right side**.
 
 1. No imports
 2. Less brackets
@@ -16,7 +16,7 @@ BLAST is a left typed language, which means **you only write types to the left s
 2. [Creating objects](#creating-objects)
 3. [Local Enums](#local-enums)
 4. [Defining methods](#defining-methods)
-5. [Optional resolution](#optional-resolution)
+5. [Optional unlocking](#optional-unlocking)
 6. [Pipe operator](#pipe-operator)
 7. [Callbacks](#callbacks)
 8. [Defining classes](#defining-classes)
@@ -27,12 +27,13 @@ BLAST is a left typed language, which means **you only write types to the left s
     5. [Enum classes](#enum-classes)
     6. [Model classes](#model-classes)
     7. [Adapter classes](#adapter-classes)
-9. [Continuity operator](#continuity-operator)
-10. [Type casting](#type-casting)
-11. [Control structures](#control-structures)
+9. [Type casting](#type-casting)
+10. [Control structures](#control-structures)
     1. [If statement](#if-statement)
-12. [Loops](#loops)
+11. [Loops](#loops)
     1. [For loop](#for-loop)
+12. [Java interoperability](#java-interoperability)
+13. [Exception handling](#exception-handling)
 
 # Creating primitives
 ```java
@@ -92,21 +93,21 @@ int syncMethod() {
 }
 
 // call it
-syncMethod@
+syncMethod@;
 
 int inline(int a, int b) -> a + b;
 
 // call it
-inline@
+inline@;
 
 async int asyncMethod() {
    return 3;
 }
 
 // call it
-asyncMethod@
+asyncMethod@;
 // or await it
-await asyncMethod@
+await asyncMethod@;
 
 ```
 
@@ -132,21 +133,24 @@ int varargMethod4(int... a, int b, int... c) {
    return 3;
 } // Not allowed yet ❌
 ```
-The varargMethod above requires 3+ int values which divided into three parts.
+The varargMethod above requires zero or 1+ int values which divided into three parts.
 
 **Example: call the varargMethod and varargMethodMultipleTypeArgs methods**
 ```java
-varargMethod@ 1,2,3 // where 'a' is going to be 1, 'b' is 2, 'c' is 3
+varargMethod@ 1 // where 'a' is going to be [1], 'b' is [], 'c' is []
+varargMethod@ 1,2,3 // where 'a' is going to be [1], 'b' is [2], 'c' is [3]
 varargMethod@ 1,2,3,4,5,6 // where 'a' is going to be [1, 2], 'b' is [3, 4], 'c' is [5, 6]
 varargMethod@ 1,2,3,4 // where 'a' is going to be [1], 'b' is [2], 'c' is [3, 4]
 
 varargMethodMultipleTypeArgs@ 1,2,"a","b","c","d",3,4 // where 'a' is going to be [1,2], 'b' is ["a","b","c","d"], 'c' is [3, 4]
 ```
 
-# Optional resolution
+# Optional unlocking
 
 In BLAST **null value is eliminated**. Welcome the world of optionals.
 The keyword `empty` replaces `null` in a way that we can define empty values (**but empty != null**).
+
+For more details check: [Java interopability](#java-interopability)
 
 ```java
 Optional optionalEmpty = empty; // Optional.empty()
@@ -241,13 +245,10 @@ To overcome this issue use the `nullish coalescing operator (??)`
 ComplexClass complexObject = {};
 Optional<ComplexClass> complexObjectOptional = complexObject;
 
-complexObjectOptional??.someMethod@; // which will use the default value of that class
+(complexObjectOptional??).someMethod@; // which will use the default value of that class
 // use this if the default value is good enough for you, otherwise you can use the below
-complexObjectOptional ?? otherValue _. someMethod@;
+(complexObjectOptional ?? otherValue).someMethod@;
 ```
-
-In the last line we used the continuity `_.` operator. Check out how it works: [Continuity operator](#continuity-operator)
-
 
 # Pipe operator
 ```csharp
@@ -406,27 +407,6 @@ Adapters used to add functionality to model classes.
 int someFunctionality() {...}
 ```
 
-# Continuity operator
-
-In order to eliminate nested evaluations inside parenthesis we introduced the `_.` continuity operator.
-
-## Usages
-
-Some usages:
-* Type casts
-* coalescing operator 
-
-```java
-// Type cast example
-// instead of writing ([1, 2, 3] as XYArrayList). slice@ 1, 2; write the following:
-[1, 2, 3] as XYArrayList _. slice@ 1, 2
-// coalescing operator example
-// instead of writing (complexObjectOptional ?? otherValue).someMethod@; write the following:
-complexObjectOptional ?? otherValue _. someMethod@;
-```
-
-BLAST stays true to itself :)
-
 # Type casting
 
 BLAST is smart enough most of the time. However sometimes type casting may be useful.
@@ -520,5 +500,33 @@ for int j = 0; j < 10; j += 2 {
    // code 
 }
 ```
+# Java interoperability
+# Exception handling
+
+The exception handling much cleaner and simpler than in other languages. There is no try-catch, only ***handle(..) {}***
+
+```scala
+methodThatThrowsCustomException();
+methodThatThrowsCustomException2();
+
+handle(CustomException | CustomException2 e) {
+    // do ex handling here..
+}
+```
+
+**Or we can do it separately:**
+
+```scala
+handle(CustomException e) {
+    // do ex handling here..
+}
+
+handle(CustomException2 e) {
+    // do ex handling here..
+}
+```
+
+The idea is that handle(..) catches the actual scope's thrown exceptions. With this approach, you won't be littering your code all over the place with try-catch.
+**handle** always goes to the end of each method.
 
 # TO BE CONTINUED..
