@@ -245,7 +245,7 @@ To overcome this issue use the `nullish coalescing operator (??)`
 ComplexClass complexObject = {};
 Optional<ComplexClass> complexObjectOptional = complexObject;
 
-(complexObjectOptional??).someMethod@; // which will use the default value of that class
+complexObjectOptional??.someMethod@; // which will use the default value of that class
 // use this if the default value is good enough for you, otherwise you can use the below
 (complexObjectOptional ?? otherValue).someMethod@;
 ```
