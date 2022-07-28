@@ -1,6 +1,6 @@
 # BLAST
 
-This is the public repository for overview of current progress.
+This is the public repository for an overview of the current progress.
 ## **Please give me a ⭐ if you think my work is worthy**
 
 BLAST is a left-typed language, which means **you only write types to the left side of each declaration and won't see types on the right side**.
@@ -32,8 +32,10 @@ BLAST is a left-typed language, which means **you only write types to the left s
     1. [If statement](#if-statement)
 11. [Loops](#loops)
     1. [For loop](#for-loop)
-12. [Java interoperability](#java-interoperability)
-13. [Exception handling](#exception-handling)
+12. [Namespaces](#namespaces)
+    1. [Flat-namespaces](#flat-namespaces) 
+13. [Java interoperability](#java-interoperability)
+14. [Exception handling](#exception-handling)
 
 # Creating primitives
 ```java
@@ -93,12 +95,18 @@ int syncMethod() {
 }
 
 // call it
-syncMethod@;
+syncMethod@; // or sychMethod(); also accepted
 
-int inline(int a, int b) -> a + b;
+int inline(int a, int b): a + b;
 
 // call it
-inline@;
+inline(1, 2);
+
+Callback<int> inlineCallback(int a, int b): -> a + b;
+
+// Notice we call inlineCallback first with parameters 1, 2 then we call the callback which is returned from inline.
+// This is the same as: inlineCallback(1, 2)();
+inlineCallback(1, 2)@;
 
 async int asyncMethod() {
    return 3;
@@ -108,7 +116,6 @@ async int asyncMethod() {
 asyncMethod@;
 // or await it
 await asyncMethod@;
-
 ```
 
 # Dealing with method argument subsets
@@ -150,23 +157,24 @@ varargMethodMultipleTypeArgs@ 1,2,"a","b","c","d",3,4 // where 'a' is going to b
 In BLAST **null value is eliminated**. Welcome the world of optionals.
 The keyword `empty` replaces `null` in a way that we can define empty values (**but empty != null**).
 
-For more details check: [Java interopability](#java-interopability)
-
 ```java
 Optional optionalEmpty = empty; // Optional.empty()
-Optional optionalChar = "b"; // Optional.of('b')
-Optional optionalString = "asd"; // Optional.of("asd")
-Optional optionalOptional = optionalString; // Optional.of("asd")
-Optional optionalInt = 3; // Optional.of(3)
+Optional<char> optionalChar = "c"; // Optional.of('c')
+Optional<String> optionalString = "string"; // Optional.of("string")
+Optional<String> optionalOptional = optionalString; // Optional.of("string")
+Optional<int> optionalInt = 3; // Optional.of(3)
 
 // You can't resolve empty into other values
 int emptyNotAllowed = optionalEmpty // Compile error ❌
 
-int optionalResolved = optionalInt; // optionalInt.getOrElse(0);
+int optionalResolved = optionalInt; // optionalInt.getOrElseThrow(runtime error);
+int optionalResolvedSafely = optionalInt??; // optionalInt.getOrElse(0);
 ```
 
 You may have noticed in the last line that usually the objects do not have a default value.
 In BLAST its not true, every object has a default value which is the zero arg constructor and this default value can be overridden.
+
+This might be interesting as well: [Java interopability](#java-interoperability)
 
 ## Be careful
 
@@ -184,13 +192,13 @@ Optional method() {
 
 ## Okay, be careful though
 
-Optional without template parameters stands for Optional\<any\> which means you can assign different types to it.
+Optional without template parameters stands for `Optional<any>` which means you can assign different types to it.
 
 ```java
 Optional method() {
     return if (
         a == 3 ? 0;
-        true ? empty; // this branch wouldn't need because Optional's default value is empty, but we put here for clarification
+        true ? empty; // this branch is negligible because Optional's default value is empty, but we put here for clarification
     )
 }
 
@@ -211,7 +219,7 @@ You have two options.
 Optional out = method@
 int a = if out ? out : 0;
 // Second option
-int a = out ??; // Here if out is empty the default value is passed. If we want a different value, we have to write out ?? otherValue;
+int a = out ??; // Here if out is empty the default value is passed. If we want a different value, we have to write: 'out ?? otherValue;'
 ```
 
 ## Optional resolution with complex objects
@@ -359,14 +367,18 @@ SomeClass instance1 = {
 Just like you used to in other languages. :) 
 
 ```scala
-// AbstractAbc.bl
+project
+│   src
+└───  AbstractAbc.bl
 ```
 
 ## Interface classes
 Just like you used to in other languages. :) 
 
 ```scala
-// AbcInterface.bl
+project
+│   src
+└───  AbcInterface.bl
 ```
 
 ## Enum classes
@@ -374,7 +386,10 @@ Just like you used to in other languages. :)
 Enum classes only allows methods, parameter declarations and enum definitions
 
 ```scala
-// AbcEnum.bl
+project
+│   src
+└───  AbcEnum.bl
+
 String name;
 int number;
 boolean condition;
@@ -391,7 +406,10 @@ Model classes are describing the properties of some entity and nothing else.
 Contains member declarations only. ***Functions not allowed***.
 
 ```scala
-// AbcModel.bl
+project
+│   src
+└───  AbcModel.bl
+
 String name = "Hello World"; // default value
 int number;
 boolean condition;
@@ -403,7 +421,10 @@ Adapters used to add functionality to model classes.
 ***Adapters are virtual by default***
 
 ```scala
-// AbcModelAdapter.bl
+project
+│   src
+└───  AbcModelAdapter.bl
+
 int someFunctionality() {...}
 ```
 
@@ -500,6 +521,39 @@ for int j = 0; j < 10; j += 2 {
    // code 
 }
 ```
+# Namespaces
+In BLAST we don't write import statements as the compiler smart enough to know which dependency you want to use.
+However, sometimes, just like in other languages, there are name conflicts. That is what `namespace` keyword is used for.
+Namespace differs from import in that it specifies a `space` for the search instead of the `module` to be imported.
+
+### Example
+Let's say we have a `Console` module in `A.somepackage` and `A.somepackage2` and we want to use the one lays in `A.somepackage`.
+
+**First option**
+```scala
+A.somepackage.Console.log@ "hello";
+```
+
+**Second option**
+```csharp
+namespace A.somepackage;
+
+Console.log@ "hello";
+```
+
+## Flat namespaces
+Sometimes you don't want to write out the module's name everytime you call a function from it. eg. `Module.function@ input`
+In this case, flat namespaces help.
+
+```csharp
+flat namespace A.somepackage.Console;
+
+log@ "hello";
+
+// But we can still call via the normal way as well.
+Console.log@ "hello" 
+```
+
 # Java interoperability
 # Exception handling
 
