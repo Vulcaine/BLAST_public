@@ -51,12 +51,12 @@ int itsFour = if (
   a == 3 ? 4
 ) // 4
 
-int itsZero = match (a) (
+int itsZero = a match (
    /^abc/ ? 4
    5 ? 6
 ) // defaults to 0
 
-boolean itsFalse = match(a) /^abc/ // false
+boolean itsFalse = a match /^abc/ // false
 ```
 
 # Creating objects
@@ -511,6 +511,7 @@ intList | map@ elem -> if (
 ## For loop
 In for loops the default increment is 1. You only have to specify increment if other needed.
 
+### Regular loops
 ```java
 for int j = 0; j < 10 {
    // code 
@@ -521,6 +522,71 @@ for int j = 0; j < 10; j += 2 {
    // code 
 }
 ```
+
+### Enhanced loops
+
+```scala
+// Simplified version
+for(int i = 0:10) {
+
+}
+
+// Simplified version different increment
+for(int i = 0:10:2) {
+    
+}
+
+// Simplified version for characters
+for(char c = "a":"z") {
+   // j will be the characters from "a" to "z"
+}
+
+// Simplified version for strings
+for(String s = "abc":"adb") {
+   // j will be the strings from "abc" to "adb"
+}
+
+// Iterate lists
+for(ComplexObject o : complexObjectList) {...}
+ComplexObject[] shallowCopyList = for(complexObjectList);
+
+// Splitting string into char array, the for loop way
+String string = "Hello world";
+char[] chars = for(string);
+
+// Create an array from an int (from 0 -> 100)
+int number = 100;
+int[] integers = for(number);
+
+// Some other examples
+String[] out = for("abc":"adb"); // if no body provided the return values are the values of j
+String[] out = for(String s = "abc":"adb"): "hello, $s"; // ["hello, abc", "hello, abd", "hello, abe", ..., "hello, adb"]
+```
+
+### As you can see above for loops can be used for mapping as well
+
+**Example**
+```scala
+String[] stringArray = ["Adam", "Armin", "Joseph", "Kate", "Rose"];
+String[] mapped = for(String name = stringArray): "Hello $name";
+// ["Hello Adam", "Hello Armin", "Hello Joseph", "Hello Kate", "Hello Rose"]
+```
+
+**Of course you can use it with filter**
+
+```scala
+String[] stringArray = ["Adam", "Armin", "Joseph", "Kate", "Rose"];
+String[] mapped = for(String name = stringArray): "Hello $name" | filter@ greeting -> greeting == "Hello Kate";
+
+// Or to filter first
+String[] mapped = for(stringArray | filter@ name  -> name  == "Kate"): "Hello $name";
+
+// Which obviously worse than using the map method, but this is just an example..
+// Use this instead
+String[] mapped = stringArray | filter@ name -> name == "Kate" | map@ name -> "Hello $name";
+```
+
+
 # Namespaces
 In BLAST we don't write import statements as the compiler smart enough to know which dependency you want to use.
 However, sometimes, just like in other languages, there are name conflicts. That is what `namespace` keyword is used for.
