@@ -559,11 +559,13 @@ int number = 100;
 int[] integers = for(number);
 
 // Some other examples
-String[] out = for("abc":"adb"); // if no body provided the return values are the values of j
+String[] out = for("abc":"adb");
 String[] out = for(String s = "abc":"adb"): "hello, $s"; // ["hello, abc", "hello, abd", "hello, abe", ..., "hello, adb"]
 ```
 
-### As you can see above for loops can be used for mapping as well
+**!!!Be careful when you iterate strings like in the examples as those are very expensive computations**
+
+### As you can see above, for loops can be used for mapping as well
 
 **Example**
 ```scala
@@ -581,7 +583,7 @@ String[] mapped = for(String name = stringArray): "Hello $name" | filter@ greeti
 // Or to filter first
 String[] mapped = for(stringArray | filter@ name  -> name  == "Kate"): "Hello $name";
 
-// Which obviously worse than using the map method, but this is just an example..
+// Which obviously worse than using the map method, but this is just an example :)
 // Use this instead
 String[] mapped = stringArray | filter@ name -> name == "Kate" | map@ name -> "Hello $name";
 ```
@@ -593,16 +595,16 @@ However, sometimes, just like in other languages, there are name conflicts. That
 Namespace differs from import in that it specifies a `space` for the search instead of the `module` to be imported.
 
 ### Example
-Let's say we have a `Console` module in `A.somepackage` and `A.somepackage2` and we want to use the one lays in `A.somepackage`.
+Let's say we have a `Console` module in `somepackage` and `somepackage2` and we want to use the one lays in `somepackage`.
 
 **First option**
 ```scala
-A.somepackage.Console.log@ "hello";
+somepackage.Console.log@ "hello";
 ```
 
 **Second option**
 ```csharp
-namespace A.somepackage;
+namespace somepackage;
 
 Console.log@ "hello";
 ```
@@ -612,7 +614,7 @@ Sometimes you don't want to write out the module's name everytime you call a fun
 In this case, flat namespaces help.
 
 ```csharp
-flat namespace A.somepackage.Console;
+flat namespace somepackage.Console;
 
 log@ "hello";
 
