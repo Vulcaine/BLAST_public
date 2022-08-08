@@ -16,6 +16,7 @@ BLAST is a left-typed language, which means **you only write types to the left s
 2. [Creating objects](#creating-objects)
 3. [Local Enums](#local-enums)
 4. [Defining methods](#defining-methods)
+    1. [Async methods](#async-methods) 
 5. [Optional unlocking](#optional-unlocking)
 6. [Pipe operator](#pipe-operator)
 7. [Callbacks](#callbacks)
@@ -116,6 +117,104 @@ async int asyncMethod() {
 asyncMethod@;
 // or await it
 await asyncMethod@;
+```
+
+## Call a method
+There are 3 ways of calling methods in BLAST.
+1. Using the `@` operator: method@;
+2. Using the regular `(args)` operator: method(args);
+3. Using the `|` (pipe) operator: args | method;
+
+**Why is there 3 different ways?**
+Its simply to be able to write more readable code. 
+Imagine the following example. Lets define a method called `sum` which adds two numbers.
+You want to add the numbers: 1, 2, 3, 4
+
+**In regular way you would call this method like this**
+```scala
+sum(1, sum(2, sum(3, 4))) // = 10
+```
+**However in BLAST you can resolve these nested calls with the following**
+```scala
+1 | sum@ 2 | sum@ 3 | sum@ 4 // = 10
+```
+Much readable, ey?
+
+**Okay okay, but what about the `()` operator? Why is it needed then?**
+So the `@` operator is for simplification in cases where you can use it, sometimes it can be confusing for the compiler.
+
+**Example**
+```scala
+methodThatReturnsComplexObject@ 1, 2.complexObjectParam;
+```
+The above we attempt to reach the `complexObjectParam` parameter which is on the object returned by the `methodThatReturnsComplexObject`
+
+**How does it looks like to the compiler? (Apart from the compile error, lets assume there is no error at all)**
+The compiler thinks we want the member of `2` which clearly not what we wanted:
+methodThatReturnsComplexObject@ 1, `2.complexObjectParam`;
+
+**This problem is fixed with the `()` operator:**
+```scala
+methodThatReturnsComplexObject(1, 2).complexObjectParam;
+```
+I mean.. it's up to you.
+
+## Async methods
+Async methods declared using the `async` keyword or setting the return value to `Future`
+
+```csharp
+async int asyncMethod() {
+    return 3;
+}
+```
+
+There are multiple ways to handle these kind of methods.
+
+### Awaiting
+Unlike in c# or javascript the await isn't limited to the scope of async methods. We can await the result at any time.
+The only restriction that the awaitable object's or method's type has to be `Future` or any subtype of `Future`.
+
+**We can wait the result using the `await` keyword**
+```csharp
+int result = await asyncMethod@;
+```
+**Or do something with the resulting Future**
+```csharp
+Future future = asyncMethod@;
+future.supplyAsync(...)
+// ... do anything else
+await future; 
+
+// Create a future object on-the-fly and await it
+// yes, as the above says we can await future objects as well
+Future anyFuture = Future.of(someHeavyMethod@);
+// ... bunch of other code
+await anyFuture;
+```
+
+### Extra example
+
+Thanks to the `pipe operator` we can chain methods more easily and readably with BLAST functional way.
+
+**Instead of this**
+```scala
+Future awaitable = asyncMethod@
+		.thenApply(number -> number * number)
+		.thenApply(square -> square * 2)
+		.whenComplete(..);
+```
+
+**Write this**
+```scala
+Future awaitable = asyncMethod@ 
+        | apply@ number -> number * number 
+	    | apply@ square -> square * 2
+	    | onComplete@ ...;
+```
+
+**Then await**
+```csharp
+await awaitable;
 ```
 
 # Dealing with method argument subsets
@@ -222,7 +321,7 @@ int a = if out ? out : 0;
 int a = out ??; // Here if out is empty the default value is passed. If we want a different value, we have to write: 'out ?? otherValue;'
 ```
 
-## Optional resolution with complex objects
+## Optional unlocking with complex objects
 
 So now you have learned how you can use optionals with primitives. What about objects?
 
@@ -242,11 +341,9 @@ Optional<ComplexClass> complexObjectOptional = complexObject;
 complexObjectOptional!.someMethod@; // use this if you are 100% sure that complexObjectOptional never empty
 ```
 
-What happen here is that BLAST tries to extract the optional value and call the method on the object.
-
 ### What if complexObjectOptional is empty?
 
-**Compile error thrown.**
+**Runtime error thrown.**
 To overcome this issue use the `nullish coalescing operator (??)`
 
 ```scala
