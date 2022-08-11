@@ -194,7 +194,7 @@ await anyFuture;
 
 ### Extra example
 
-Thanks to the `pipe operator` we can chain methods more easily and readably with BLAST functional way.
+Thanks to the `pipe operator` we can chain methods more easily with BLAST functional way.
 
 **Instead of this**
 ```scala
@@ -206,10 +206,10 @@ Future awaitable = asyncMethod@
 
 **Write this**
 ```scala
-Future awaitable = asyncMethod@ 
+Future awaitable = asyncMethod@
         | apply@ number -> number * number 
-	    | apply@ square -> square * 2
-	    | onComplete@ ...;
+        | apply@ square -> square * 2
+        | onComplete@ ...;
 ```
 
 **Then await**
@@ -414,6 +414,7 @@ There are other class types like:
     - Interfaces: XYInterface.bl
     - Enums: XYEnum.bl
     - Model classes: XYModel.bl
+    - DTO classes: XYDTO.bl
     - Adapter classes: XYAdapter.bl
     - Factory classes: XYFactory.bl
 * Dependency injection:
@@ -506,6 +507,21 @@ Contains member declarations only. ***Functions not allowed***.
 project
 │   src
 └───  AbcModel.bl
+
+String name = "Hello World"; // default value
+int number;
+boolean condition;
+```
+
+## DTO classes
+
+The purpose of these classes is to transfer data (usually over HTTP).
+The only difference between DTO and Model is that **DTO serializable by default**.
+
+```scala
+project
+│   src
+└───  AbcDTO.bl
 
 String name = "Hello World"; // default value
 int number;
@@ -720,6 +736,37 @@ Console.log@ "hello"
 ```
 
 # Java interoperability
+
+In BLAST there is no way to define null value. However, in pure java it still exists, in fact its a problem which should be handled by the language.
+
+This problem is solved by the optional unlocking.
+Optional unlocking not only handling `optionals` but `nulls` as well.
+
+However, nulls are not resolved automatically, as are optionals, so if `null` is not handled by the unlock operator, a runtime error will still occur.
+
+### Example
+
+**Third party java code**
+```java
+package org.example.java
+
+class NullObjectClass {
+    public static Object getNullObject() {
+        retrun null;
+    }
+}
+```
+
+**BLAST code**
+```scala
+Object nullObject = NullObjectClass.getNullObject@;
+nullObject.someMethod@ ❌ // compile error
+
+nullObject??.someMethod@ ✔️ // No problem
+```
+
+**The conclusion is that developer must take care when using third party java libraries**
+
 # Exception handling
 
 The exception handling much cleaner and simpler than in other languages. There is no try-catch, only ***handle(..) {}***
