@@ -16,7 +16,9 @@ BLAST is a left-typed language, which means **you only write types to the left s
 2. [Creating objects](#creating-objects)
 3. [Local Enums](#local-enums)
 4. [Defining methods](#defining-methods)
-    1. [Async methods](#async-methods) 
+    1. [Calling methods](#calling-methods)
+    2. [Cascade notation](#cascade-notation)
+    3. [Async methods](#async-methods)
 5. [Optional unlocking](#optional-unlocking)
 6. [Pipe operator](#pipe-operator)
 7. [Callbacks](#callbacks)
@@ -119,7 +121,7 @@ asyncMethod@;
 await asyncMethod@;
 ```
 
-## Call a method
+## Calling methods
 There are 3 ways of calling methods in BLAST.
 1. Using the `@` operator: method@;
 2. Using the regular `(args)` operator: method(args);
@@ -158,6 +160,18 @@ methodThatReturnsComplexObject@ 1, `2.complexObjectParam`;
 methodThatReturnsComplexObject(1, 2).complexObjectParam;
 ```
 I mean.. it's up to you.
+
+## Cascde notation
+
+The `cascade notation operator` helps overcome the above issue.
+
+To call multiple methods with `@` operator:
+
+```scala
+Object.method@ arg
+      ..method2@ arg
+      ..method3@ arg
+```
 
 ## Async methods
 Async methods declared using the `async` keyword or setting the return value to `Future`
@@ -266,8 +280,8 @@ Optional<int> optionalInt = 3; // Optional.of(3)
 // You can't resolve empty into other values
 int emptyNotAllowed = optionalEmpty // Compile error ❌
 
-int optionalResolved = optionalInt; // optionalInt.getOrElseThrow(runtime error);
-int optionalResolvedSafely = optionalInt??; // optionalInt.getOrElse(0);
+int optionalResolved = optionalInt; // optionalInt.ElseThrow(runtime error);
+int optionalResolvedSafely = optionalInt??; // optionalInt.orElse(0);
 ```
 
 You may have noticed in the last line that usually the objects do not have a default value.
@@ -737,7 +751,7 @@ Console.log@ "hello"
 
 # Java interoperability
 
-In BLAST there is no way to define null value. However, in pure java it still exists, in fact its a problem which should be handled by the language.
+In BLAST there is no way to define null value. However, in vanilla java it still exists, in fact its a problem which should be handled by the language.
 
 This problem is solved by the optional unlocking.
 Optional unlocking not only handling `optionals` but `nulls` as well.
