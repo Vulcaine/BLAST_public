@@ -121,6 +121,19 @@ asyncMethod@;
 await asyncMethod@;
 ```
 
+## Default arguments
+Default arguments must be the last in the argument list.
+
+```java
+void method(int a, int b = 0, boolean b = false) {
+    
+}
+
+method@ 0;
+```
+
+**!!!Pipe parameters cannot have default values**
+
 ## Calling methods
 There are 3 ways of calling methods in BLAST.
 1. Using the `@` operator: method@;
@@ -808,5 +821,22 @@ handle(CustomException2 e) {
 
 The idea is that handle(..) catches the actual scope's thrown exceptions. With this approach, you won't be littering your code all over the place with try-catch.
 **handle** always goes to the end of each method.
+
+## Exception ignoring
+
+Sometimes we don't want to deal with exceptions. Check the next example how to use handle in those cases.
+
+```java
+int exceptionalCall() {
+    throw <RuntimeException>{};
+}
+
+Optional<int> integer = handle(exceptionalCall@);
+
+// To give custom default value
+Optional<int> integer = handle(exceptionalCall@): 13;
+```
+
+In this example handle returns the called method's value, otherwise empty optional, if default value not specified.
 
 # TO BE CONTINUED..
