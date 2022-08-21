@@ -291,7 +291,7 @@ Optional<String> optionalOptional = optionalString; // Optional.of("string")
 Optional<int> optionalInt = 3; // Optional.of(3)
 
 // You can't resolve empty into other values
-int emptyNotAllowed = optionalEmpty // Compile error ❌
+int emptyNotAllowed = optionalEmpty // Runtime error ❌
 
 int optionalResolved = optionalInt; // optionalInt.ElseThrow(runtime error);
 int optionalResolvedSafely = optionalInt??; // optionalInt.orElse(0);
@@ -787,7 +787,7 @@ class NullObjectClass {
 **BLAST code**
 ```scala
 Object nullObject = NullObjectClass.getNullObject@;
-nullObject.someMethod@ ❌ // compile error
+nullObject.someMethod@ ❌ // Runtime error
 
 nullObject??.someMethod@ ✔️ // No problem
 ```
