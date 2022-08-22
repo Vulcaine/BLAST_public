@@ -76,6 +76,40 @@ ArgumentOption[] options = [
 ];
 ```
 
+## Constructor parameter unlocking
+
+BLAST knows exactly what you want. Therefore the compiler can infer the nested constructor types 
+
+### Example
+Lets assume we have an `A(B, C)` class with `B(String param)`, `C(D param)` and `D(Enum param1, Integer param2, Boolean param3)`.
+We would normally instantiate this object by: `new A(new B("Hello World"), new C(new D(Enum.Example, 0, false)))`
+BLAST gives us a simpler solution which is the below:
+
+```scala
+A object = { "Hello World", { Enum.example, 0, false } }
+```
+
+The unlocking option above only works if there is no `(String, Enum, D param)` constructor defined which is ambigious. In this case, compile error thrown.
+
+### Single parameter example
+
+If our class has only 1 parameter in its constructor then the brackets are negligible.
+
+```scala
+// constructor: A(String example)
+A object = "Hello World"
+
+// equivalent to: A object = { "Hello World" }
+// and equivalent to: A object = { example: "Hello World" }
+```
+
+### Using on interfaces
+
+```scala
+Interface object = <ActualType> "Hello World";
+// If there is only one implementation of the interface then type casting is negligible
+```
+
 # Local Enums
 
 So simple and easy
@@ -571,6 +605,14 @@ int someFunctionality() {...}
 # Type casting
 
 BLAST is smart enough most of the time. However sometimes type casting may be useful.
+
+### Type cast example
+```scala
+A example = <A> methodThatReturnsB@;
+
+A example2 = <A> <C> methodThatReturnsB@.memberSubtypeOfA;
+// Here the first (<C>) cast affects the 'methodThatReturnsB@' call while the second (<A>) takes effect on 'memberSubtypeOfA'
+```
 
 ## When type casting isn't needed
 
