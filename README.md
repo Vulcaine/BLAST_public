@@ -12,18 +12,18 @@
 
 # Table of Contents
 0. [Hello World in BLAST](#hello-world-in-blast)
-1. [Creating primitives](#creating-primitives)
-2. [Creating objects](#creating-objects)
-3. [Local Enums](#local-enums)
-4. [Defining methods](#defining-methods)
-    1. [Calling methods](#calling-methods)
-    2. [Cascade notation](#cascade-notation)
-    3. [Async methods](#async-methods)
-5. [Optional unlocking](#optional-unlocking)
-6. [Pipe operator](#pipe-operator)
-7. [Callbacks](#callbacks)
-8. [Defining classes](#defining-classes)
-    1. [Simple classes](#simple-classes)
+1. [Creating primitives](#1.-creating-primitives)
+2. [Creating objects](#2.-creating-objects)
+3. [Local Enums](#3.-local-enums)
+4. [Defining methods](#4.-defining-methods)
+    1. [Calling methods](#4.1.-calling-methods)
+    2. [Cascade notation](#4.2.-cascade-notation)
+    3. [Async methods](#4.3.-async-methods)
+5. [Optional unlocking](#5.-optional-unlocking)
+6. [Pipe operator](#6.-pipe-operator)
+7. [Callbacks](#7.-callbacks)
+8. [Defining classes](#8.-defining-classes)
+    1. [Simple classes](#8.1.-simple-classes)
     2. [Instantiation](#instantiation)
     3. [Abstract classes](#abstract-classes)
     4. [Interface classes](#interface-classes)
@@ -774,7 +774,7 @@ char[] chars = for("Hello World");
 int[] integers = for(100);
 ```
 
-### For loops can be used for mapping as well
+### As you can see above, for loops can be used for mapping as well
 
 **Example**
 ```scala
