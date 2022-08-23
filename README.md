@@ -12,7 +12,7 @@
 
 # Table of Contents
 0. [Hello World in BLAST](#hello-world-in-blast)
-1. [Creating primitives](#1.-creating-primitives)
+1. [Creating primitives](#1-creating-primitives)
 2. [Creating objects](#2.-creating-objects)
 3. [Local Enums](#3.-local-enums)
 4. [Defining methods](#4.-defining-methods)
