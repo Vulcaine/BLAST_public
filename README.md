@@ -19,6 +19,7 @@
     1. [Calling methods](#4-1-calling-methods)
     2. [Cascade notation](#4-2-cascade-notation)
     3. [Async methods](#4-3-async-methods)
+    4. [Dealing with method argument subsets](#5-4-dealing-with-method-argument-subsets)
 5. [Optional unlocking](#5-optional-unlocking)
 6. [Pipe operator](#6-pipe-operator)
 7. [Callbacks](#7-callbacks)
@@ -346,7 +347,7 @@ varargMethod@ 1,2,3,4 // where 'a' is going to be [1], 'b' is [2], 'c' is [3, 4]
 varargMethodMultipleTypeArgs@ 1,2,"a","b","c","d",3,4 // where 'a' is going to be [1,2], 'b' is ["a","b","c","d"], 'c' is [3, 4]
 ```
 
-# 6. Optional unlocking
+# 5. Optional unlocking
 
 In BLAST **null value is eliminated**. Welcome the world of optionals.
 The keyword `empty` replaces `null` in a way that we can define empty values (**but empty != null**).
@@ -416,7 +417,7 @@ int a = if out ? out : 0;
 int a = out ??; // Here if out is empty the default value is passed. If we want a different value, we have to write: 'out ?? otherValue;'
 ```
 
-## 6.1. Optional unlocking with complex objects
+## 5.1. Optional unlocking with complex objects
 
 So now you have learned how you can use optionals with primitives. What about objects?
 
@@ -450,7 +451,7 @@ complexObjectOptional??.someMethod@; // which will use the default value of that
 (complexObjectOptional ?? otherValue).someMethod@;
 ```
 
-# 7. Pipe operator
+# 6. Pipe operator
 ```csharp
 int method(int a..., int b...) pipe(string c) {
   Console.log@ c;
@@ -488,7 +489,7 @@ async int method(int a..., int b...) {
 await 1, 2 | method@
 ```
 
-# 8. Callbacks
+# 7. Callbacks
 
 ***Callbacks doesn't support pipe operator yet.***
 
@@ -501,7 +502,7 @@ asyncCallback@
 await asyncCallback@
 ```
 
-# 9. Defining classes
+# 8. Defining classes
 Classes in BLAST determined by file naming postfixes and prefixes. A simple class doesn't include any prebuilt postfix or prefix.
 There are other class types like:
 * Non-dependency injection:
@@ -544,7 +545,7 @@ use @RequiredArgsConstructor, @NoArgsConstructor // to add annotations
 ```
 The above definition in a file called A.bl will result in A.class so in blast you don't have to write the class definition in the file. ***Naming matters***.
 
-## 9.1. Instantiation
+## 8.1. Instantiation
 
 ```csharp
 SomeClass instance1 = {};
@@ -556,7 +557,7 @@ SomeClass instance1 = {
 };
 ```
 
-## 9.2. Abstract classes
+## 8.2. Abstract classes
 Just like you used to in other languages. :) 
 
 ```scala
@@ -565,7 +566,7 @@ project
 └───  AbstractAbc.bl
 ```
 
-## 9.3. Interface classes
+## 8.3. Interface classes
 Just like you used to in other languages. :) 
 
 ```scala
@@ -574,7 +575,7 @@ project
 └───  AbcInterface.bl
 ```
 
-## 9.4. Enum classes
+## 8.4. Enum classes
 
 Enum classes only allows methods, parameter declarations and enum definitions
 
@@ -593,7 +594,7 @@ B("B", 1, false),
 C("C", 1, false)
 ```
 
-## 9.5. Model classes
+## 8.5. Model classes
 
 Model classes are describing the properties of some entity and nothing else.
 Contains member declarations only. ***Functions not allowed***.
@@ -608,7 +609,7 @@ int number;
 boolean condition;
 ```
 
-## 9.6. DTO classes
+## 8.6. DTO classes
 
 The purpose of these classes is to transfer data (usually over HTTP).
 The only difference between DTO and Model is that **DTO serializable by default**.
@@ -623,7 +624,7 @@ int number;
 boolean condition;
 ```
 
-## 9.7. Adapter classes
+## 8.7. Adapter classes
 
 Adapters used to add functionality to model classes.
 ***Adapters are virtual by default***
@@ -636,7 +637,7 @@ project
 int someFunctionality() {...}
 ```
 
-# 10. Type casting
+# 9. Type casting
 
 BLAST is smart enough most of the time. However sometimes type casting may be useful.
 
@@ -671,11 +672,11 @@ ComplexObjectInterface complexObject = <ComplexObject> {};
 <ComplexObject>complexObject.someAction@;
 ```
 
-# 11. Control structures
+# 10. Control structures
 
 Control structures are a bit different than in other languages to make the code more readable and simple.
 
-## 11.1. if statement
+## 10.1. if statement
 
 The structure of an if statement is the following: 
 
@@ -720,8 +721,8 @@ intList | map@ elem -> if (
     true ? elem^2;
 ); // this is where it comes very handy
 ```
-# 12. Loops
-## 12.1. For loop
+# 11. Loops
+## 11.1. For loop
 In for loops the default increment is 1. You only have to specify increment if other needed.
 
 ### Regular loops
