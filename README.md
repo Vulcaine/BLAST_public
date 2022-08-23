@@ -1,9 +1,8 @@
 # BLAST
-
-This is the public repository for an overview of the current progress.
+> Language specification.
 ## **Please give me a ⭐ if you think my work is worthy**
 
-BLAST is a left-typed language, which means **you only write types to the left side of each declaration and won't see types on the right side**.
+**BLAST is a left-typed functional language**.
 
 1. No imports
 2. Less brackets
@@ -12,6 +11,7 @@ BLAST is a left-typed language, which means **you only write types to the left s
 5. More efficiency
 
 # Table of Contents
+0. [Hello World in BLAST](#hello-world-in-blast)
 1. [Creating primitives](#creating-primitives)
 2. [Creating objects](#creating-objects)
 3. [Local Enums](#local-enums)
@@ -39,8 +39,21 @@ BLAST is a left-typed language, which means **you only write types to the left s
     1. [Flat-namespaces](#flat-namespaces) 
 13. [Java interoperability](#java-interoperability)
 14. [Exception handling](#exception-handling)
+    1.[Exception ignoring](#exception-ignoring) 
 
-# Creating primitives
+# Hello World in BLAST
+
+```scala
+Console.log@ "Hello World";
+// or
+Console.log("Hello World");
+// or
+"Hello World" | Console.log@;
+// or
+"Hello World" | Console.log();
+```
+
+# 1. Creating primitives
 ```java
 int a = 3;
 int[] b = [1, 2, 3];
@@ -62,7 +75,19 @@ int itsZero = a match (
 boolean itsFalse = a match /^abc/ // false
 ```
 
-# Creating objects
+## 1.1 Block initialization
+
+Variables can be initialized with the block `type varName ::= {}` initializer which means everything declared inside this block will be freed outside.
+An efficient way to create heavy objects on-the-fly.
+
+```scala
+int c = {
+    int b = 4;
+    return 3 + b;
+}; // resources are closed and memory freed after the block initialization
+```
+
+# 2. Creating objects
 ```scala
 ArgumentOption option = {};
 
@@ -76,7 +101,7 @@ ArgumentOption[] options = [
 ];
 ```
 
-## Constructor parameter unlocking
+## 2.1 Constructor parameter unlocking
 
 BLAST knows exactly what you want. Therefore the compiler can infer the nested constructor types 
 
@@ -89,11 +114,11 @@ BLAST gives us a simpler solution which is the below:
 A object = { "Hello World", { Enum.example, 0, false } }
 ```
 
-The unlocking option above only works if there is no `(String, Enum, D param)` constructor defined which is ambigious. In this case, compile error thrown.
+The unlocking option above only works if there is no `(String, Enum, D param)` constructor defined which is ambigious. In that case, compile error thrown.
 
 ### Single parameter example
 
-If our class has only 1 parameter in its constructor then the brackets are negligible.
+If the class has only 1 parameter in its constructor then the brackets are negligible.
 
 ```scala
 // constructor: A(String example)
@@ -103,14 +128,23 @@ A object = "Hello World"
 // and equivalent to: A object = { example: "Hello World" }
 ```
 
+### No arg example
+
+Without args the brackets are mandatory.
+
+```scala
+// constructor: A()
+A object = {}
+```
+
+
 ### Using on interfaces
 
 ```scala
 Interface object = <ActualType> "Hello World";
-// If there is only one implementation of the interface then type casting is negligible
 ```
 
-# Local Enums
+# 3. Local Enums
 
 So simple and easy
 
@@ -125,7 +159,7 @@ Enum localEnum = enum(String name, int number, boolean condition) {
 String name = localEnum.X.name
 ```
 
-# Defining methods
+# 4. Defining methods
 ```csharp
 int syncMethod() {
    return 3;
@@ -155,7 +189,7 @@ asyncMethod@;
 await asyncMethod@;
 ```
 
-## Default arguments
+## 4.1. Default arguments
 Default arguments must be the last in the argument list.
 
 ```java
@@ -168,7 +202,7 @@ method@ 0;
 
 **!!!Pipe parameters cannot have default values**
 
-## Calling methods
+## 4.2. Calling methods
 There are 3 ways of calling methods in BLAST.
 1. Using the `@` operator: method@;
 2. Using the regular `(args)` operator: method(args);
@@ -208,7 +242,7 @@ methodThatReturnsComplexObject(1, 2).complexObjectParam;
 ```
 I mean.. it's up to you.
 
-## Cascde notation
+## 4.3. Cascde notation
 
 The `cascade notation operator` helps overcome the above issue.
 
@@ -220,7 +254,7 @@ Object.method@ arg
       ..method3@ arg
 ```
 
-## Async methods
+## 4.4. Async methods
 Async methods declared using the `async` keyword or setting the return value to `Future`
 
 ```csharp
@@ -278,7 +312,7 @@ Future awaitable = asyncMethod@
 await awaitable;
 ```
 
-# Dealing with method argument subsets
+# 5. Dealing with method argument subsets
 
 In BLAST we can define multiple varargs but **vararg must be followed by vararg**.
 
@@ -312,7 +346,7 @@ varargMethod@ 1,2,3,4 // where 'a' is going to be [1], 'b' is [2], 'c' is [3, 4]
 varargMethodMultipleTypeArgs@ 1,2,"a","b","c","d",3,4 // where 'a' is going to be [1,2], 'b' is ["a","b","c","d"], 'c' is [3, 4]
 ```
 
-# Optional unlocking
+# 6. Optional unlocking
 
 In BLAST **null value is eliminated**. Welcome the world of optionals.
 The keyword `empty` replaces `null` in a way that we can define empty values (**but empty != null**).
@@ -382,7 +416,7 @@ int a = if out ? out : 0;
 int a = out ??; // Here if out is empty the default value is passed. If we want a different value, we have to write: 'out ?? otherValue;'
 ```
 
-## Optional unlocking with complex objects
+## 6.1. Optional unlocking with complex objects
 
 So now you have learned how you can use optionals with primitives. What about objects?
 
@@ -416,7 +450,7 @@ complexObjectOptional??.someMethod@; // which will use the default value of that
 (complexObjectOptional ?? otherValue).someMethod@;
 ```
 
-# Pipe operator
+# 7. Pipe operator
 ```csharp
 int method(int a..., int b...) pipe(string c) {
   Console.log@ c;
@@ -454,7 +488,7 @@ async int method(int a..., int b...) {
 await 1, 2 | method@
 ```
 
-# Callbacks
+# 8. Callbacks
 
 ***Callbacks doesn't support pipe operator yet.***
 
@@ -467,7 +501,7 @@ asyncCallback@
 await asyncCallback@
 ```
 
-# Defining classes
+# 9. Defining classes
 Classes in BLAST determined by file naming postfixes and prefixes. A simple class doesn't include any prebuilt postfix or prefix.
 There are other class types like:
 * Non-dependency injection:
@@ -510,7 +544,7 @@ use @RequiredArgsConstructor, @NoArgsConstructor // to add annotations
 ```
 The above definition in a file called A.bl will result in A.class so in blast you don't have to write the class definition in the file. ***Naming matters***.
 
-## Instantiation
+## 9.1. Instantiation
 
 ```csharp
 SomeClass instance1 = {};
@@ -522,7 +556,7 @@ SomeClass instance1 = {
 };
 ```
 
-## Abstract classes
+## 9.2. Abstract classes
 Just like you used to in other languages. :) 
 
 ```scala
@@ -531,7 +565,7 @@ project
 └───  AbstractAbc.bl
 ```
 
-## Interface classes
+## 9.3. Interface classes
 Just like you used to in other languages. :) 
 
 ```scala
@@ -540,7 +574,7 @@ project
 └───  AbcInterface.bl
 ```
 
-## Enum classes
+## 9.4. Enum classes
 
 Enum classes only allows methods, parameter declarations and enum definitions
 
@@ -559,7 +593,7 @@ B("B", 1, false),
 C("C", 1, false)
 ```
 
-## Model classes
+## 9.5. Model classes
 
 Model classes are describing the properties of some entity and nothing else.
 Contains member declarations only. ***Functions not allowed***.
@@ -574,7 +608,7 @@ int number;
 boolean condition;
 ```
 
-## DTO classes
+## 9.6. DTO classes
 
 The purpose of these classes is to transfer data (usually over HTTP).
 The only difference between DTO and Model is that **DTO serializable by default**.
@@ -589,7 +623,7 @@ int number;
 boolean condition;
 ```
 
-## Adapter classes
+## 9.7. Adapter classes
 
 Adapters used to add functionality to model classes.
 ***Adapters are virtual by default***
@@ -602,7 +636,7 @@ project
 int someFunctionality() {...}
 ```
 
-# Type casting
+# 10. Type casting
 
 BLAST is smart enough most of the time. However sometimes type casting may be useful.
 
@@ -631,20 +665,17 @@ If you don't pass the value to other type but you want to use the variable on-th
 #### Example: use the variable on-the-fly as a supertype
 
 ```scala
-// If only the ComplexObject implements ComplexObjectInterface 
-// or the appropriate constructor is invoked (and not ambiguous) the typecast here is negligible.
-// Otherwise compile error thrown.
-ComplexObjectInterface complexObject = <ComplexObject>{};
+ComplexObjectInterface complexObject = <ComplexObject> {};
 
 // Now you want to call someAction which only available in ComplexObject
 <ComplexObject>complexObject.someAction@;
 ```
 
-# Control structures
+# 11. Control structures
 
 Control structures are a bit different than in other languages to make the code more readable and simple.
 
-## if statement
+## 11.1. if statement
 
 The structure of an if statement is the following: 
 
@@ -689,8 +720,8 @@ intList | map@ elem -> if (
     true ? elem^2;
 ); // this is where it comes very handy
 ```
-# Loops
-## For loop
+# 12. Loops
+## 12.1. For loop
 In for loops the default increment is 1. You only have to specify increment if other needed.
 
 ### Regular loops
@@ -728,26 +759,22 @@ for(String s = "abc":"adb") {
    // j will be the strings from "abc" to "adb"
 }
 
-// Iterate lists
+```
+
+### Loop as expression
+
+```scala
 for(ComplexObject o : complexObjectList) {...}
 ComplexObject[] shallowCopyList = for(complexObjectList);
 
 // Splitting string into char array, the for loop way
-String string = "Hello world";
-char[] chars = for(string);
+char[] chars = for("Hello World");
 
 // Create an array from an int (from 0 -> 100)
-int number = 100;
-int[] integers = for(number);
-
-// Some other examples
-String[] out = for("abc":"adb");
-String[] out = for(String s = "abc":"adb"): "hello, $s"; // ["hello, abc", "hello, abd", "hello, abe", ..., "hello, adb"]
+int[] integers = for(100);
 ```
 
-**!!!Be careful when you iterate strings like in the examples as those are very expensive computations**
-
-### As you can see above, for loops can be used for mapping as well
+### For loops can be used for mapping as well
 
 **Example**
 ```scala
@@ -771,7 +798,7 @@ String[] mapped = stringArray | filter@ name -> name == "Kate" | map@ name -> "H
 ```
 
 
-# Namespaces
+# 12. Namespaces
 In BLAST we don't write import statements as the compiler smart enough to know which dependency you want to use.
 However, sometimes, just like in other languages, there are name conflicts. That is what `namespace` keyword is used for.
 Namespace differs from import in that it specifies a `space` for the search instead of the `module` to be imported.
@@ -791,7 +818,7 @@ namespace somepackage;
 Console.log@ "hello";
 ```
 
-## Flat namespaces
+## 12.1. Flat namespaces
 Sometimes you don't want to write out the module's name everytime you call a function from it. eg. `Module.function@ input`
 In this case, flat namespaces help.
 
@@ -804,7 +831,7 @@ log@ "hello";
 Console.log@ "hello" 
 ```
 
-# Java interoperability
+# 13. Java interoperability
 
 In BLAST there is no way to define null value. However, in vanilla java it still exists, in fact its a problem which should be handled by the language.
 
@@ -836,7 +863,7 @@ nullObject??.someMethod@ ✔️ // No problem
 
 **The conclusion is that developer must take care when using third party java libraries**
 
-# Exception handling
+# 14. Exception handling
 
 The exception handling much cleaner and simpler than in other languages. There is no try-catch, only ***handle(..) {}***
 
@@ -864,7 +891,7 @@ handle(CustomException2 e) {
 The idea is that handle(..) catches the actual scope's thrown exceptions. With this approach, you won't be littering your code all over the place with try-catch.
 **handle** always goes to the end of each method.
 
-## Exception ignoring
+## 14.1. Exception ignoring
 
 Sometimes we don't want to deal with exceptions. Check the next example how to use handle in those cases.
 
@@ -873,10 +900,10 @@ int exceptionalCall() {
     throw <RuntimeException>{};
 }
 
-Optional<int> integer = handle(exceptionalCall@);
+Optional<int> integer = handle(ExceptionType1 | ExceptionType2 | ..., exceptionalCall@);
 
 // To give custom default value
-Optional<int> integer = handle(exceptionalCall@): 13;
+Optional<int> integer = handle(ExceptionType1 | ExceptionType2 | ..., exceptionalCall@): 13;
 ```
 
 In this example handle returns the called method's value, otherwise empty optional, if default value not specified.
