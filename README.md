@@ -36,11 +36,12 @@
     1. [If statement](#10-1-if-statement)
 11. [Loops](#11-loops)
     1. [For loop](#11-1-for-loop)
-12. [Namespaces](#12-namespaces)
-    1. [Flat-namespaces](#12-1-flat-namespaces) 
-13. [Java interoperability](#13-java-interoperability)
-14. [Exception handling](#14-exception-handling)
-    1.[Exception ignoring](#14-1-exception-ignoring) 
+12. [Generators](#12-generators)
+13. [Namespaces](#12-namespaces)
+    1. [Flat-namespaces](#13-1-flat-namespaces) 
+14. [Java interoperability](#14-java-interoperability)
+15. [Exception handling](#15-exception-handling)
+    1.[Exception ignoring](#15-1-exception-ignoring)
 
 # Hello World in BLAST
 
@@ -139,7 +140,7 @@ A object = {}
 ```
 
 
-### Using on interfaces
+### Polymorphism
 
 ```scala
 Interface object = <ActualType> "Hello World";
@@ -725,18 +726,6 @@ intList | map@ elem -> if (
 ## 11.1. For loop
 In for loops the default increment is 1. You only have to specify increment if other needed.
 
-### Regular loops
-```java
-for int j = 0; j < 10 {
-   // code 
-}
-
-// Different increment
-for int j = 0; j < 10; j += 2 {
-   // code 
-}
-```
-
 ### Enhanced loops
 
 ```scala
@@ -753,11 +742,6 @@ for(int i = 0:10:2) {
 // Simplified version for characters
 for(char c = "a":"z") {
    // j will be the characters from "a" to "z"
-}
-
-// Simplified version for strings
-for(String s = "abc":"adb") {
-   // j will be the strings from "abc" to "adb"
 }
 
 ```
@@ -798,8 +782,62 @@ String[] mapped = for(stringArray | filter@ name  -> name  == "Kate"): "Hello $n
 String[] mapped = stringArray | filter@ name -> name == "Kate" | map@ name -> "Hello $name";
 ```
 
+# 12. Generators
 
-# 12. Namespaces
+For memory efficiency sometimes we don't want to store every value in memory at a time. Multiple generators exists:
+* IndexedGenerator
+* ElementWiseGenerator
+* ListGenerator
+* InfiniteGenerator
+
+**We can define generators by using the same syntax like for-loops.**
+
+**Syntax:** `for*(<Loop declaration>) {}?`
+
+## Indexed generator example
+This example will generate numbers from 0 to 100.
+```scala
+Generator<int> intGeneratorMethod() {
+    return for*(100)
+}
+```
+### Define a body
+We can of course define a more complex generator like the following:
+```scala
+Generator<Something> somethingGeneratorMethod() {
+    return for*(int i = 2 : 100 : 2) {
+      Something something = i // if you  find this interesting check the instantiation part
+      yield something
+    }
+}
+```
+
+## Infinite generator example
+The other interesting generator we should know is the infite generator,
+which, as its name implies, will generate an infinite sequence.
+To create one simply create a condition in for loop that never ends.
+
+### Example
+```csharp
+Generator<int> infiniteNumberGenerator () {
+    int number = 0
+    return for*(true) {
+        yield number++
+    }
+}
+```
+
+## Iterate over a Generator
+We can use `enhanced for-loops` for this purpose
+
+```csharp
+Generator<int> intGenerator = for*(100)
+for (int i : intGenerator) {
+    // do smth
+}
+```
+
+# 13. Namespaces
 In BLAST we don't write import statements as the compiler smart enough to know which dependency you want to use.
 However, sometimes, just like in other languages, there are name conflicts. That is what `namespace` keyword is used for.
 Namespace differs from import in that it specifies a `space` for the search instead of the `module` to be imported.
@@ -819,7 +857,7 @@ namespace somepackage;
 Console.log@ "hello";
 ```
 
-## 12.1. Flat namespaces
+## 13.1. Flat namespaces
 Sometimes you don't want to write out the module's name everytime you call a function from it. eg. `Module.function@ input`
 In this case, flat namespaces help.
 
@@ -832,7 +870,7 @@ log@ "hello";
 Console.log@ "hello" 
 ```
 
-# 13. Java interoperability
+# 14. Java interoperability
 
 In BLAST there is no way to define null value. However, in vanilla java it still exists, in fact its a problem which should be handled by the language.
 
@@ -864,7 +902,7 @@ nullObject??.someMethod@ ✔️ // No problem
 
 **The conclusion is that developer must take care when using third party java libraries**
 
-# 14. Exception handling
+# 15. Exception handling
 
 The exception handling much cleaner and simpler than in other languages. There is no try-catch, only ***handle(..) {}***
 
@@ -890,7 +928,7 @@ handle(CustomException2 e) {
 ```
 
 The idea is that handle(..) catches the actual scope's thrown exceptions. With this approach, you won't be littering your code all over the place with try-catch.
-**handle** always goes to the end of each method.
+**handle** could always go to the end of each method.
 
 ## 14.1. Exception ignoring
 
@@ -901,10 +939,10 @@ int exceptionalCall() {
     throw <RuntimeException>{};
 }
 
-Optional<int> integer = handle(ExceptionType1 | ExceptionType2 | ..., exceptionalCall@);
+Optional<int> integer = handle(exceptionalCall@, ExceptionType1 | ExceptionType2 | ...);
 
 // To give custom default value
-Optional<int> integer = handle(ExceptionType1 | ExceptionType2 | ..., exceptionalCall@): 13;
+Optional<int> integer = handle(exceptionalCall@, ExceptionType1 | ExceptionType2 | ...): 13;
 ```
 
 In this example handle returns the called method's value, otherwise empty optional, if default value not specified.
