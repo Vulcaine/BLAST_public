@@ -724,23 +724,22 @@ intList | map@ elem -> if (
 ```
 # 11. Loops
 ## 11.1. For loop
-In for loops the default increment is 1. You only have to specify increment if other needed.
+**Syntax:** `for([(expr | variable) ->] expr [: expr])`
 
-### Enhanced loops
-
+### Loop as statement
 ```scala
 // Simplified version
-for(int i = 0:10) {
+for(int i = 0 -> 10) {
 
 }
 
 // Simplified version different increment
-for(int i = 0:10:2) {
+for(int i = 0 -> 10 : 2) {
     
 }
 
 // Simplified version for characters
-for(char c = "a":"z") {
+for(char c = "a" -> "z") {
    // j will be the characters from "a" to "z"
 }
 
@@ -757,6 +756,21 @@ char[] chars = for("Hello World");
 
 // Create an array from an int (from 0 -> 100)
 int[] integers = for(100);
+
+// Create an array from an int (from 0 -> 100) with increment of 2
+int[] integers = for(100 : 2);
+
+// Create an array from an int (from 10 -> 100) with increment of 2
+int[] integers = for(10 -> 100 : 2);
+```
+
+### Reversed loops
+
+The reversed loops are using the reversed arrow `<-` syntax.
+
+```scala
+// int list from 0 to -10
+int[] ints7_reverse = for(0 <- -10 : 2)
 ```
 
 ### As you can see above, for loops can be used for mapping as well
@@ -930,7 +944,7 @@ handle(CustomException2 e) {
 The idea is that handle(..) catches the actual scope's thrown exceptions. With this approach, you won't be littering your code all over the place with try-catch.
 **handle** could always go to the end of each method.
 
-## 14.1. Exception ignoring
+## 15.1. Exception ignoring
 
 Sometimes we don't want to deal with exceptions. Check the next example how to use handle in those cases.
 
