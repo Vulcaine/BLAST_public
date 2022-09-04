@@ -724,7 +724,7 @@ intList | map@ elem -> if (
 ```
 # 11. Loops
 ## 11.1. For loop
-**Syntax:** `for([(expr | variable) ->] expr [: expr])`
+**Syntax:** `for([(expr | variable) (-> | <-)] expr [: expr]) {}?`
 
 ### Loop as statement
 ```scala
@@ -762,6 +762,11 @@ int[] integers = for(100 : 2);
 
 // Create an array from an int (from 10 -> 100) with increment of 2
 int[] integers = for(10 -> 100 : 2);
+
+// To define body
+int[] integers = for(int i = 10 -> 100 : 2) {
+    yield i + 2;
+}
 ```
 
 ### Reversed loops
@@ -773,7 +778,25 @@ The reversed loops are using the reversed arrow `<-` syntax.
 int[] ints7_reverse = for(0 <- -10 : 2)
 ```
 
-### As you can see above, for loops can be used for mapping as well
+Reversed loops prohibited from non-numerical use.
+
+### Indexed loops
+
+For loops can be used to iterate lists with index as well.
+
+```java
+// indexed string loop
+for(int i -> "Hello World") {
+    Console.log@ i
+}
+
+// indexed string loop starting from 2nd index, get every 2nd character's position
+for(int i = 2 -> "Hello World" : 2) {
+    Console.log@ i
+}
+```
+
+### Expressional for loops can be used for mappings as well
 
 **Example**
 ```scala
@@ -791,7 +814,7 @@ String[] mapped = for(String name = stringArray): "Hello $name" | filter@ greeti
 // Or to filter first
 String[] mapped = for(stringArray | filter@ name  -> name  == "Kate"): "Hello $name";
 
-// Which obviously worse than using the map method, but this is just an example :)
+// Which obviously less readable than using the map method, but this is just an example :)
 // Use this instead
 String[] mapped = stringArray | filter@ name -> name == "Kate" | map@ name -> "Hello $name";
 ```
@@ -819,7 +842,7 @@ Generator<int> intGeneratorMethod() {
 We can of course define a more complex generator like the following:
 ```scala
 Generator<Something> somethingGeneratorMethod() {
-    return for*(int i = 2 : 100 : 2) {
+    return for*(int i = 2 -> 100 : 2) {
       Something something = i // if you  find this interesting check the instantiation part
       yield something
     }
@@ -846,10 +869,22 @@ We can use `enhanced for-loops` for this purpose
 
 ```csharp
 Generator<int> intGenerator = for*(100)
-for (int i : intGenerator) {
+for (int i -> intGenerator) {
     // do smth
 }
 ```
+
+## Save iterator into variable
+
+Saving iterators output into a variable is a bit tricky because not every iterator's length known exactly.
+However with IndexedGenerator it is still easy, since its iterator's the length is known.
+
+```scala
+Generator<int> intGenerator = for*(100)
+int[] ints = for(intGenerator)
+```
+
+The hard part comes when we want to iterate over something which's length not known (e.g. InfiniteGenerator). In that case `compile error` thrown. 
 
 # 13. Namespaces
 In BLAST we don't write import statements as the compiler smart enough to know which dependency you want to use.
@@ -960,5 +995,55 @@ Optional<int> integer = handle(exceptionalCall@, ExceptionType1 | ExceptionType2
 ```
 
 In this example handle returns the called method's value, otherwise empty optional, if default value not specified.
+
+# 16. Object destruction
+
+Object destruction is a very handy way to extract parameters from instances.
+**Syntax:** `instance(<var decl>, ...) [block]`
+
+## 16.1. Object destruction as statement
+In the next example we have a class called `Something somethingInstance = Something(int a, OtherObject b, String c)` and we want to get the `int` and `String` parameters only
+```java
+somethingInstance(int customIntVariableName, *, String customStringVariableName)
+
+// use customIntVariableName and customStringVariableName here
+```
+
+**Use block to decrease the lifetime of variables**
+
+```java
+somethingInstance(int customIntVariableName, *, String customStringVariableName) {
+    // use customIntVariableName and customStringVariableName here
+}
+
+// Cannot use customIntVariableName and customStringVariableName here
+```
+
+### Chained object destruction
+We can define multiple object destruction expressions in the same statement each followed by comma
+```java
+somethingInstance(int a, OtherObject otherObject, String c), otherObject(Type d, Type e)  {
+    // a, b, c, d, e available in this scope
+}
+```
+
+Note above that we destruct the `otherObject` which is extracted from `somethingInstance`
+
+## 16.2. Object destruction as expression
+We will use the same object as example
+
+```java
+// Assign to variable
+String out = somethingInstance(int customIntVariableName, *, String customStringVariableName): "${customIntVariableName}${customStringVariableName}"
+
+// Use in method call
+method@ somethingInstance(int customIntVariableName, *, String customStringVariableName): "${customIntVariableName}${customStringVariableName}"
+
+// Use in pipe expression
+somethingInstance(int customIntVariableName, *, String customStringVariableName): "${customIntVariableName}${customStringVariableName}" | method@
+
+// etc..
+```
+
 
 # TO BE CONTINUED..
