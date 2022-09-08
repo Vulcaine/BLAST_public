@@ -819,6 +819,16 @@ String[] mapped = for(stringArray | filter@ name  -> name  == "Kate"): "Hello $n
 String[] mapped = stringArray | filter@ name -> name == "Kate" | map@ name -> "Hello $name";
 ```
 
+## 11.2. Sequences
+For loops when used as expression can be used to create sequences easily.
+
+```scala
+int[] int_sequence = for(int i = 2 -> 10 : 2) {
+  yield i + 1
+  yield i
+} // [3, 2, 5, 4, 7, 6, 9, 8, 11, 10]
+```
+
 # 12. Generators
 
 For memory efficiency sometimes we don't want to store every value in memory at a time. Multiple generators exists:
