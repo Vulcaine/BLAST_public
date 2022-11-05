@@ -42,6 +42,9 @@
 14. [Java interoperability](#14-java-interoperability)
 15. [Exception handling](#15-exception-handling)
     1.[Exception ignoring](#15-1-exception-ignoring)
+16. [Object Desctruction](#16-object-destruction)
+    1. [Object destruction as statement](#object-destruction-as-statement)
+    2. [Object destruction as expression](#object-destruction-as-expression)
 
 # Hello World in BLAST
 
@@ -1054,6 +1057,5 @@ somethingInstance(int customIntVariableName, *, String customStringVariableName)
 
 // etc..
 ```
-
 
 # TO BE CONTINUED..
