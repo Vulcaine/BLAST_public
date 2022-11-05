@@ -43,8 +43,8 @@
 15. [Exception handling](#15-exception-handling)
     1.[Exception ignoring](#15-1-exception-ignoring)
 16. [Object Desctruction](#16-object-destruction)
-    1. [Object destruction as statement](#object-destruction-as-statement)
-    2. [Object destruction as expression](#object-destruction-as-expression)
+    1. [Object destruction as statement](#16-1-object-destruction-as-statement)
+    2. [Object destruction as expression](#16-2-object-destruction-as-expression)
 
 # Hello World in BLAST
 
