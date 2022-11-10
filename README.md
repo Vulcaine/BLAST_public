@@ -581,7 +581,7 @@ project
 
 ## 8.4. Enum classes
 
-Enum classes only allows methods, parameter declarations and enum definitions
+Enum classes are allowing methods, parameter declarations and enum definitions only.
 
 ```scala
 project
