@@ -158,10 +158,15 @@ Enum localEnum = enum(String name, int number, boolean condition) {
    X("X", 1, false),
    A("A", 1, false),
    B("B", 1, false),
-   C("C", 1, false)
+   C("C", 1, false);
+   
+   void someMethod() {
+   	// do something
+   }
 }
 
 String name = localEnum.X.name
+localEnum.X.someMethod@
 ```
 
 # 4. Defining methods
