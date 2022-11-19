@@ -45,6 +45,9 @@
 16. [Object Desctruction](#16-object-destruction)
     1. [Object destruction as statement](#16-1-object-destruction-as-statement)
     2. [Object destruction as expression](#16-2-object-destruction-as-expression)
+17. [Events](#17-Events)
+    1. [Registering events](#17-1-registering_events)
+    2. [Firing events](#17-1-firing-events)
 
 # Hello World in BLAST
 
@@ -1063,4 +1066,32 @@ somethingInstance(int customIntVariableName, *, String customStringVariableName)
 // etc..
 ```
 
+## 17. Events
+There is a built-in functionality to register and fire events with ease.
+Events in Blast are special exceptions that can be raised with the `fire` keyword.
+
+### 17.1. Registering events
+**Syntax**: `on((<event_type> <event_variable>)(',' <event_type> <event_variable>)*){<event_block>}` 
+Here is an example how to register an event:
+
+```scala
+on(BlastEvent e) {
+  Console.log@ "Event run {{e}}"
+}
+```
+Or run the same logic with multiple events:
+```scala
+on(CustomBlastEvent1 e1, CustomBlastEvent2 e2, ...) {
+    Console.log@ "Event run {{e1}} {{e2}}"
+}
+```
+
+### 17.2. Firing events
+```java
+fire BlastEvent:::{
+    prop1: "event_property1",
+    prop2: "event_property2",
+    ...
+}
+```
 # TO BE CONTINUED..
