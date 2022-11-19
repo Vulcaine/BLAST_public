@@ -47,7 +47,7 @@
     2. [Object destruction as expression](#16-2-object-destruction-as-expression)
 17. [Events](#17-Events)
     1. [Registering events](#17-1-registering_events)
-    2. [Firing events](#17-1-firing-events)
+    2. [Firing events](#17-2-firing-events)
 
 # Hello World in BLAST
 
@@ -1068,7 +1068,7 @@ somethingInstance(int customIntVariableName, *, String customStringVariableName)
 
 ## 17. Events
 There is a built-in functionality to register and fire events with ease.
-Events in Blast are special exceptions that can be raised with the `fire` keyword.
+Events in blast are special exceptions that can be raised with the `fire` keyword.
 
 ### 17.1. Registering events
 **Syntax**: `on((<event_type> <event_variable>)(',' <event_type> <event_variable>)*){<event_block>}` 
