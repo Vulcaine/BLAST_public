@@ -16,10 +16,11 @@
 2. [Creating objects](#2-creating-objects)
 3. [Local Enums](#3-local-enums)
 4. [Defining methods](#4-defining-methods)
-    1. [Calling methods](#4-1-calling-methods)
-    2. [Cascade notation](#4-2-cascade-notation)
-    3. [Async methods](#4-3-async-methods)
-    4. [Dealing with method argument subsets](#5-4-dealing-with-method-argument-subsets)
+    1. [Default arguments](#4-1-default-arguments)
+    2. [Calling methods](#4-2-calling-methods)
+    3. [Cascade notation](#4-3-cascade-notation)
+    4. [Async methods](#4-4-async-methods)
+    5. [Varargs](#4-5-Varargs)
 5. [Optional unlocking](#5-optional-unlocking)
 6. [Pipe operator](#6-pipe-operator)
 7. [Callbacks](#7-callbacks)
@@ -325,38 +326,12 @@ Future awaitable = asyncMethod@
 await awaitable;
 ```
 
-# 5. Dealing with method argument subsets
+# 4.5. Varargs
 
-In BLAST we can define multiple varargs but **vararg must be followed by vararg**.
-
-**Example: Three input sets**
-```java
-int varargMethod(int... a, int... b, int... c) {
-   return 3;
-}
-
-int varargMethod2(int a, int... b, int... c) {
-   return 3;
-}
-
-int varargMethodMultipleTypeArgs(int a..., String... b, int... c) {
-   return 3;
-}
-
-int varargMethod4(int... a, int b, int... c) {
-   return 3;
-} // Not allowed yet ❌
-```
-The varargMethod above requires zero or 1+ int values which divided into three parts.
-
-**Example: call the varargMethod and varargMethodMultipleTypeArgs methods**
-```java
-varargMethod@ 1 // where 'a' is going to be [1], 'b' is [], 'c' is []
-varargMethod@ 1,2,3 // where 'a' is going to be [1], 'b' is [2], 'c' is [3]
-varargMethod@ 1,2,3,4,5,6 // where 'a' is going to be [1, 2], 'b' is [3, 4], 'c' is [5, 6]
-varargMethod@ 1,2,3,4 // where 'a' is going to be [1], 'b' is [2], 'c' is [3, 4]
-
-varargMethodMultipleTypeArgs@ 1,2,"a","b","c","d",3,4 // where 'a' is going to be [1,2], 'b' is ["a","b","c","d"], 'c' is [3, 4]
+BLAST, Just like in Java can handle varargs. See the example below:
+```scala
+int varargMethod(int a, int b, int... c) {}
+varargMethod@ 1, 2, 3, 4, 'c', "s"
 ```
 
 # 5. Optional unlocking
