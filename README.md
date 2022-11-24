@@ -1047,7 +1047,7 @@ There is a built-in functionality to register and fire events with ease.
 Events in blast are special exceptions that can be raised with the `fire` keyword.
 
 ### 17.1. Registering events
-**Syntax**: `on((<event_type> <event_variable>)(',' <event_type> <event_variable>)*){<event_block>}` 
+**Syntax**: `on(<event_type> [| <event_type>]* <event_variable>)){<event_block>}` 
 Here is an example how to register an event:
 
 ```scala
