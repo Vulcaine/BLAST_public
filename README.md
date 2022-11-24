@@ -49,6 +49,7 @@
 17. [Events](#17-Events)
     1. [Registering events](#17-1-registering_events)
     2. [Firing events](#17-2-firing-events)
+18. [Play](#18-play)
 
 # Hello World in BLAST
 
@@ -1069,4 +1070,47 @@ fire BlastEvent:::{
     ...
 }
 ```
+
+# 18. Conditional play statement
+
+Conditional play statement is an easy way to spawn a separate thread for a while.
+
+**sytax:** `play {<statements>} while <condition>`
+
+As the name suggests this statement will play its body in a separate thread until the condition is false.
+
+```scala
+int frame = 0
+play {
+    frame++
+} until frame < 60
+```
+
+Play will fire a PlayFinishEvent after completion.
+```scala
+PlayFinishEvent animationFinishedEvent = play {
+    Animation.playNextFrame@
+} while Animation.hasFrame
+
+on(animationFinishedEvent) {
+    // do something with animation
+}
+```
+
+It is possible to create infinite loops as well.
+**syntax:** `play {<statements>}`
+In this case no events getting spawned.
+```scala
+play {
+   GameEngine.update@
+}
+```
+It is possible to play something until event happens
+**syntax:** `play {<statements>} until <event> [| <event>]*`
+```scala
+play {
+   GameEngine.update@
+} until GameStoppedEvent
+```
+
 # TO BE CONTINUED..
