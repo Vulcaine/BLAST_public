@@ -1057,8 +1057,8 @@ on(BlastEvent e) {
 ```
 Or run the same logic with multiple events:
 ```scala
-on(CustomBlastEvent1 e1, CustomBlastEvent2 e2, ...) {
-    Console.log@ "Event run {{e1}} {{e2}}"
+on(CustomBlastEvent1 | CustomBlastEvent2 e) {
+    Console.log@ "Event run {{e}}"
 }
 ```
 
