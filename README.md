@@ -1105,7 +1105,7 @@ play {
    GameEngine.update@
 }
 ```
-It is possible to play something until event happens
+It is possible to play something until an event happens
 **syntax:** `play {<statements>} until <event> [| <event>]*`
 ```scala
 play {
