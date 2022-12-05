@@ -1083,7 +1083,7 @@ As the name suggests this statement will play its body in a separate thread unti
 int frame = 0
 play {
     frame++
-} until frame < 60
+} while frame < 60
 ```
 
 Play will fire a PlayFinishEvent after completion.
