@@ -54,24 +54,24 @@
 # Hello World in BLAST
 
 ```scala
-Console.log@ "Hello World";
+Console.log_ "Hello World"
 // or
-Console.log("Hello World");
+Console.log("Hello World")
 // or
-"Hello World" | Console.log@;
+"Hello World" | Console.log_
 // or
-"Hello World" | Console.log();
+"Hello World" | Console.log()
 ```
 
 # 1. Creating primitives
 ```java
-int a = 3;
-int[] b = [1, 2, 3];
+int a = 3
+int[] b = [1, 2, 3]
 int c = {
-    int b = 4;
-    return 3 + b;
-}; // resources are closed and memory freed after the block initialization
-any[] d = ["a", 1, false];
+    int b = 4
+    return 3 + b
+} // resources are closed and memory freed after the block initialization
+any[] d = ["a", 1, false]
 
 int itsFour = if (
   a == 3 ? 4
@@ -92,14 +92,14 @@ An efficient way to create heavy objects on-the-fly.
 
 ```scala
 int c = {
-    int b = 4;
-    return 3 + b;
-}; // resources are closed and memory freed after the block initialization
+    int b = 4
+    return 3 + b
+} // resources are closed and memory freed after the block initialization
 ```
 
 # 2. Creating objects
 ```scala
-ArgumentOption option = {};
+ArgumentOption option = {}
 
 ArgumentOption[] options = [
      {
@@ -108,7 +108,7 @@ ArgumentOption[] options = [
         hasArg: true,
         description: 'input'
      }
-];
+]
 ```
 
 ## 2.1 Constructor parameter unlocking
@@ -151,7 +151,7 @@ A object = {}
 ### Polymorphism
 
 ```scala
-Interface object = <ActualType> "Hello World";
+Interface object = <ActualType> "Hello World"
 ```
 
 # 3. Local Enums
@@ -163,7 +163,7 @@ Enum localEnum = enum(String name, int number, boolean condition) {
    X("X", 1, false),
    A("A", 1, false),
    B("B", 1, false),
-   C("C", 1, false);
+   C("C", 1, false)
    
    void someMethod() {
    	// do something
@@ -171,37 +171,37 @@ Enum localEnum = enum(String name, int number, boolean condition) {
 }
 
 String name = localEnum.X.name
-localEnum.X.someMethod@
+localEnum.X.someMethod_
 ```
 
 # 4. Defining methods
 ```csharp
 int syncMethod() {
-   return 3;
+   return 3
 }
 
 // call it
-syncMethod@; // or sychMethod(); also accepted
+syncMethod_ // or sychMethod() also accepted
 
-int inline(int a, int b): a + b;
+int inline(int a, int b): a + b
 
 // call it
-inline(1, 2);
+inline(1, 2)
 
-Callback<int> inlineCallback(int a, int b): -> a + b;
+Callback<int> inlineCallback(int a, int b): -> a + b
 
 // Notice we call inlineCallback first with parameters 1, 2 then we call the callback which is returned from inline.
-// This is the same as: inlineCallback(1, 2)();
-inlineCallback(1, 2)@;
+// This is the same as: inlineCallback(1, 2)()
+inlineCallback(1, 2)_
 
 async int asyncMethod() {
-   return 3;
+   return 3
 }
 
 // call it
-asyncMethod@;
+asyncMethod_
 // or await it
-await asyncMethod@;
+await asyncMethod_
 ```
 
 ## 4.1. Default arguments
@@ -212,16 +212,16 @@ void method(int a, int b = 0, boolean b = false) {
     
 }
 
-method@ 0;
+method_ 0
 ```
 
 **!!!Pipe parameters cannot have default values**
 
 ## 4.2. Calling methods
 There are 3 ways of calling methods in BLAST.
-1. Using the `@` operator: method@;
-2. Using the regular `(args)` operator: method(args);
-3. Using the `|` (pipe) operator: args | method;
+1. Using the `_` operator: method_
+2. Using the regular `(args)` operator: method(args)
+3. Using the `|` (pipe) operator: args | method
 
 **Why is there 3 different ways?**
 Its simply to be able to write more readable code. 
@@ -234,26 +234,26 @@ sum(1, sum(2, sum(3, 4))) // = 10
 ```
 **However in BLAST you can resolve these nested calls with the following**
 ```scala
-1 | sum@ 2 | sum@ 3 | sum@ 4 // = 10
+1 | sum_ 2 | sum_ 3 | sum_ 4 // = 10
 ```
 Much readable, ey?
 
 **Okay okay, but what about the `()` operator? Why is it needed then?**
-So the `@` operator is for simplification in cases where you can use it, sometimes it can be confusing for the compiler.
+So the `_` operator is for simplification in cases where you can use it, sometimes it can be confusing for the compiler.
 
 **Example**
 ```scala
-methodThatReturnsComplexObject@ 1, 2.complexObjectParam;
+methodThatReturnsComplexObject_ 1, 2.complexObjectParam
 ```
 The above we attempt to reach the `complexObjectParam` parameter which is on the object returned by the `methodThatReturnsComplexObject`
 
 **How does it looks like to the compiler? (Apart from the compile error, lets assume there is no error at all)**
 The compiler thinks we want the member of `2` which clearly not what we wanted:
-methodThatReturnsComplexObject@ 1, `2.complexObjectParam`;
+methodThatReturnsComplexObject_ 1, `2.complexObjectParam`
 
 **This problem is fixed with the `()` operator:**
 ```scala
-methodThatReturnsComplexObject(1, 2).complexObjectParam;
+methodThatReturnsComplexObject(1, 2).complexObjectParam
 ```
 I mean.. it's up to you.
 
@@ -261,12 +261,12 @@ I mean.. it's up to you.
 
 The `cascade notation operator` helps overcome the above issue.
 
-To call multiple methods with `@` operator:
+To call multiple methods with `_` operator:
 
 ```scala
-Object.method@ arg
-      ..method2@ arg
-      ..method3@ arg
+Object.method_ arg
+      ..method2_ arg
+      ..method3_ arg
 ```
 
 ## 4.4. Async methods
@@ -274,7 +274,7 @@ Async methods declared using the `async` keyword or setting the return value to 
 
 ```csharp
 async int asyncMethod() {
-    return 3;
+    return 3
 }
 ```
 
@@ -286,20 +286,20 @@ The only restriction that the awaitable object's or method's type has to be `Fut
 
 **We can wait the result using the `await` keyword**
 ```csharp
-int result = await asyncMethod@;
+int result = await asyncMethod_
 ```
 **Or do something with the resulting Future**
 ```csharp
-Future future = asyncMethod@;
+Future future = asyncMethod_
 future.supplyAsync(...)
 // ... do anything else
-await future; 
+await future 
 
 // Create a future object on-the-fly and await it
 // yes, as the above says we can await future objects as well
-Future anyFuture = Future.of(someHeavyMethod@);
+Future anyFuture = Future.of(someHeavyMethod_)
 // ... bunch of other code
-await anyFuture;
+await anyFuture
 ```
 
 ### Extra example
@@ -308,23 +308,23 @@ Thanks to the `pipe operator` we can chain methods more easily with BLAST functi
 
 **Instead of this**
 ```scala
-Future awaitable = asyncMethod@
+Future awaitable = asyncMethod_
 		.thenApply(number -> number * number)
 		.thenApply(square -> square * 2)
-		.whenComplete(..);
+		.whenComplete(..)
 ```
 
 **Write this**
 ```scala
-Future awaitable = asyncMethod@
-        | apply@ number -> number * number 
-        | apply@ square -> square * 2
-        | onComplete@ ...;
+Future awaitable = asyncMethod_
+        | apply_ number -> number * number 
+        | apply_ square -> square * 2
+        | onComplete_ ...
 ```
 
 **Then await**
 ```csharp
-await awaitable;
+await awaitable
 ```
 
 # 4.5. Varargs
@@ -332,7 +332,7 @@ await awaitable;
 BLAST, Just like in Java can handle varargs. See the example below:
 ```scala
 int varargMethod(int a, int b, int... c) {}
-varargMethod@ 1, 2, 3, 4, 'c', "s"
+varargMethod_ 1, 2, 3, 4, 'c', "s"
 ```
 
 # 5. Optional unlocking
@@ -341,17 +341,17 @@ In BLAST **null value is eliminated**. Welcome the world of optionals.
 The keyword `empty` replaces `null` in a way that we can define empty values (**but empty != null**).
 
 ```java
-Optional optionalEmpty = empty; // Optional.empty()
-Optional<char> optionalChar = "c"; // Optional.of('c')
-Optional<String> optionalString = "string"; // Optional.of("string")
-Optional<String> optionalOptional = optionalString; // Optional.of("string")
-Optional<int> optionalInt = 3; // Optional.of(3)
+Optional optionalEmpty = empty // Optional.empty()
+Optional<char> optionalChar = "c" // Optional.of('c')
+Optional<String> optionalString = "string" // Optional.of("string")
+Optional<String> optionalOptional = optionalString // Optional.of("string")
+Optional<int> optionalInt = 3 // Optional.of(3)
 
 // You can't resolve empty into other values
 int emptyNotAllowed = optionalEmpty // Runtime error ❌
 
-int optionalResolved = optionalInt; // optionalInt.ElseThrow(runtime error);
-int optionalResolvedSafely = optionalInt??; // optionalInt.orElse(0);
+int optionalResolved = optionalInt // optionalInt.ElseThrow(runtime error)
+int optionalResolvedSafely = optionalInt?? // optionalInt.orElse(0)
 ```
 
 You may have noticed in the last line that usually the objects do not have a default value.
@@ -380,12 +380,12 @@ Optional without template parameters stands for `Optional<any>` which means you 
 ```java
 Optional method() {
     return if (
-        a == 3 ? 0;
-        true ? empty; // this branch is negligible because Optional's default value is empty, but we put here for clarification
+        a == 3 ? 0
+        true ? empty // this branch is negligible because Optional's default value is empty, but we put here for clarification
     )
 }
 
-int a = method@ // What happens?
+int a = method_ // What happens?
 ```
 
 In the code above if `a == 3` is true the program continues to run without any problem.
@@ -399,10 +399,10 @@ You have two options.
 
 ```java
 // First option
-Optional out = method@
-int a = if out ? out : 0;
+Optional out = method_
+int a = if out ? out : 0
 // Second option
-int a = out ??; // Here if out is empty the default value is passed. If we want a different value, we have to write: 'out ?? otherValue;'
+int a = out ?? // Here if out is empty the default value is passed. If we want a different value, we have to write: 'out ?? otherValue'
 ```
 
 ## 5.1. Optional unlocking with complex objects
@@ -410,8 +410,8 @@ int a = out ??; // Here if out is empty the default value is passed. If we want 
 So now you have learned how you can use optionals with primitives. What about objects?
 
 ```scala
-ComplexClass complexObject = {};
-Optional<ComplexClass> complexObjectOptional = complexObject;
+ComplexClass complexObject = {}
+Optional<ComplexClass> complexObjectOptional = complexObject
 ```
 
 ### Call method on complexObject
@@ -419,10 +419,10 @@ Optional<ComplexClass> complexObjectOptional = complexObject;
 To use the code above and call the method without extracting the optional first lets use the `!` operator.
 
 ```scala
-ComplexClass complexObject = {};
-Optional<ComplexClass> complexObjectOptional = complexObject;
+ComplexClass complexObject = {}
+Optional<ComplexClass> complexObjectOptional = complexObject
 
-complexObjectOptional!.someMethod@; // use this if you are 100% sure that complexObjectOptional never empty
+complexObjectOptional!.someMethod_ // use this if you are 100% sure that complexObjectOptional never empty
 ```
 
 ### What if complexObjectOptional is empty?
@@ -431,23 +431,23 @@ complexObjectOptional!.someMethod@; // use this if you are 100% sure that comple
 To overcome this issue use the `nullish coalescing operator (??)`
 
 ```scala
-ComplexClass complexObject = {};
-Optional<ComplexClass> complexObjectOptional = complexObject;
+ComplexClass complexObject = {}
+Optional<ComplexClass> complexObjectOptional = complexObject
 
-complexObjectOptional??.someMethod@; // which will use the default value of that class
+complexObjectOptional??.someMethod_ // which will use the default value of that class
 // use this if the default value is good enough for you, otherwise you can use the below
-(complexObjectOptional ?? otherValue).someMethod@;
+(complexObjectOptional ?? otherValue).someMethod_
 ```
 
 # 6. Pipe operator
 ```csharp
 int method(int a..., int b...) pipe(string c) {
-  Console.log@ c;
-  return 0;
+  Console.log_ c
+  return 0
 }
 
 // call it
-"hello" | method@ 1, 2
+"hello" | method_ 1, 2
 ```
 
 If you define `pipe` on method you ***must*** call the parameters inside with the `pipe operator` however if you don't define it,
@@ -457,24 +457,24 @@ you have a choice to use the `pipe operator` on the normal method parameters.
 
 ```csharp
 int method(int a..., int b...) {
-  Console.log@ a + b;
-  return 0;
+  Console.log_ a + b
+  return 0
 }
 
 // call it
-1, 2 | method@
+1, 2 | method_
 ```
 
 ***what about async methods?***
 
 ```csharp
 async int method(int a..., int b...) {
-  Console.log@ a + b;
-  return 0;
+  Console.log_ a + b
+  return 0
 }
 
-// fire it ;)
-await 1, 2 | method@
+// fire it )
+await 1, 2 | method_
 ```
 
 # 7. Callbacks
@@ -485,9 +485,9 @@ await 1, 2 | method@
 Callback asyncCallback = async int a, int b, int c -> "Hello World"
 
 // call it
-asyncCallback@
+asyncCallback_
 // or await it
-await asyncCallback@
+await asyncCallback_
 ```
 
 # 8. Defining classes
@@ -519,7 +519,7 @@ Of course some can be combined for example:
 ```scala
 // file: A.bl
 // every class starts with a header definition
-namespace A.b.c; // usually in blast you don't write imports because the compiler smart enough.
+namespace A.b.c // usually in blast you don't write imports because the compiler smart enough.
 // However sometimes you get some module name collisions from different packages,
 // there you use the namespace definition to resolve ambiguity. For details check the namespaces section
 
@@ -527,7 +527,7 @@ extends Console // to extend other classes
 implements ConsoleInterface // to implement interfaces
 use virtual // every class static by default, use virtual to make it non-static
 use <K> // to give this class a template parameter
-use @RequiredArgsConstructor, @NoArgsConstructor // to add annotations
+use _RequiredArgsConstructor, _NoArgsConstructor // to add annotations
 
 // program starts here..
 ```
@@ -536,13 +536,13 @@ The above definition in a file called A.bl will result in A.class so in blast yo
 ## 8.1. Instantiation
 
 ```csharp
-SomeClass instance1 = {};
+SomeClass instance1 = {}
 SomeClass instance1 = {
     prop1: value1,
     prop2: value2,
     ...
     propN: valueN
-};
+}
 ```
 
 ## 8.2. Abstract classes
@@ -572,9 +572,9 @@ project
 │   src
 └───  AbcEnum.bl
 
-String name;
-int number;
-boolean condition;
+String name
+int number
+boolean condition
 
 X("X", 1, false),
 A("A", 1, false),
@@ -592,9 +592,9 @@ project
 │   src
 └───  AbcModel.bl
 
-String name = "Hello World"; // default value
-int number;
-boolean condition;
+String name = "Hello World" // default value
+int number
+boolean condition
 ```
 
 ## 8.6. DTO classes
@@ -607,9 +607,9 @@ project
 │   src
 └───  AbcDTO.bl
 
-String name = "Hello World"; // default value
-int number;
-boolean condition;
+String name = "Hello World" // default value
+int number
+boolean condition
 ```
 
 ## 8.7. Adapter classes
@@ -631,10 +631,10 @@ BLAST is smart enough most of the time. However sometimes type casting may be us
 
 ### Type cast example
 ```scala
-A example = <A> methodThatReturnsB@;
+A example = <A> methodThatReturnsB_
 
-A example2 = <A> <C> methodThatReturnsB@.memberSubtypeOfA;
-// Here the first (<C>) cast affects the 'methodThatReturnsB@' call while the second (<A>) takes effect on 'memberSubtypeOfA'
+A example2 = <A> <C> methodThatReturnsB_.memberSubtypeOfA
+// Here the first (<C>) cast affects the 'methodThatReturnsB_' call while the second (<A>) takes effect on 'memberSubtypeOfA'
 ```
 
 ## When type casting isn't needed
@@ -644,8 +644,8 @@ One of the benefits of this left-typed language is that it can easily infer type
 #### Example: passing List of values to a supertype ArrayList
 
 ```scala
-List<ComplexObjectInterface> a = [o1, o2, o3,...];
-ArrayList<ComplexObject> b = a; // BLAST can handle it
+List<ComplexObjectInterface> a = [o1, o2, o3,...]
+ArrayList<ComplexObject> b = a // BLAST can handle it
 ```
 ## When type casting is needed
 
@@ -654,10 +654,10 @@ If you don't pass the value to other type but you want to use the variable on-th
 #### Example: use the variable on-the-fly as a supertype
 
 ```scala
-ComplexObjectInterface complexObject = <ComplexObject> {};
+ComplexObjectInterface complexObject = <ComplexObject> {}
 
 // Now you want to call someAction which only available in ComplexObject
-<ComplexObject>complexObject.someAction@;
+<ComplexObject>complexObject.someAction_
 ```
 
 # 10. Control structures
@@ -670,11 +670,11 @@ The structure of an if statement is the following:
 
 ```csharp
 if (
-    condition1 ? action;
-    condition2 ? action;
+    condition1 ? action
+    condition2 ? action
     ...
-    conditionN ? action;
-    true ? action; // this is the else branch
+    conditionN ? action
+    true ? action // this is the else branch
 )
 ```
 
@@ -684,30 +684,30 @@ if (
 // using as value of a variable
 int var = if (
     otherVar == "Hello World" => 1
-); // if the condition is false the default value returned is 0
+) // if the condition is false the default value returned is 0
 
 // one line if
-int var2 = if var == 1 ? 0 : 2;
+int var2 = if var == 1 ? 0 : 2
 
 // Of course you can define if without returning the value to something, this is the void if
 if (
-  var == 2 ? someAction(); // where someAction can return anything the value dismissed from stack  
-);
+  var == 2 ? someAction() // where someAction can return anything the value dismissed from stack  
+)
 
 // using in method
 int method() {
     return if (
-        otherVar == "Hello World" ? 1;
-        var == 1 ? 2;
-        true ? 36;
-    ); // using true to specify default value instead of 0
+        otherVar == "Hello World" ? 1
+        var == 1 ? 2
+        true ? 36
+    ) // using true to specify default value instead of 0
 }
 
 // using in a mapping function
-intList | map@ elem -> if (
-    elem == 0 ? elem*2;
-    true ? elem^2;
-); // this is where it comes very handy
+intList | map_ elem -> if (
+    elem == 0 ? elem*2
+    true ? elem^2
+) // this is where it comes very handy
 ```
 # 11. Loops
 ## 11.1. For loop
@@ -736,23 +736,23 @@ for(char c = "a" -> "z") {
 
 ```scala
 for(ComplexObject o : complexObjectList) {...}
-ComplexObject[] shallowCopyList = for(complexObjectList);
+ComplexObject[] shallowCopyList = for(complexObjectList)
 
 // Splitting string into char array, the for loop way
-char[] chars = for("Hello World");
+char[] chars = for("Hello World")
 
 // Create an array from an int (from 0 -> 100)
-int[] integers = for(100);
+int[] integers = for(100)
 
 // Create an array from an int (from 0 -> 100) with increment of 2
-int[] integers = for(100 : 2);
+int[] integers = for(100 : 2)
 
 // Create an array from an int (from 10 -> 100) with increment of 2
-int[] integers = for(10 -> 100 : 2);
+int[] integers = for(10 -> 100 : 2)
 
 // To define body
 int[] integers = for(int i = 10 -> 100 : 2) {
-    yield i + 2;
+    yield i + 2
 }
 ```
 
@@ -774,12 +774,12 @@ For loops can be used to iterate lists with index as well.
 ```java
 // indexed string loop
 for(int i -> "Hello World") {
-    Console.log@ i
+    Console.log_ i
 }
 
 // indexed string loop starting from 2nd index, get every 2nd character's position
 for(int i = 2 -> "Hello World" : 2) {
-    Console.log@ i
+    Console.log_ i
 }
 ```
 
@@ -787,23 +787,23 @@ for(int i = 2 -> "Hello World" : 2) {
 
 **Example**
 ```scala
-String[] stringArray = ["Adam", "Armin", "Joseph", "Kate", "Rose"];
-String[] mapped = for(String name = stringArray): "Hello $name";
+String[] stringArray = ["Adam", "Armin", "Joseph", "Kate", "Rose"]
+String[] mapped = for(String name = stringArray): "Hello $name"
 // ["Hello Adam", "Hello Armin", "Hello Joseph", "Hello Kate", "Hello Rose"]
 ```
 
 **Of course you can use it with filter**
 
 ```scala
-String[] stringArray = ["Adam", "Armin", "Joseph", "Kate", "Rose"];
-String[] mapped = for(String name = stringArray): "Hello $name" | filter@ greeting -> greeting == "Hello Kate";
+String[] stringArray = ["Adam", "Armin", "Joseph", "Kate", "Rose"]
+String[] mapped = for(String name = stringArray): "Hello $name" | filter_ greeting -> greeting == "Hello Kate"
 
 // Or to filter first
-String[] mapped = for(stringArray | filter@ name  -> name  == "Kate"): "Hello $name";
+String[] mapped = for(stringArray | filter_ name  -> name  == "Kate"): "Hello $name"
 
 // Which obviously less readable than using the map method, but this is just an example :)
 // Use this instead
-String[] mapped = stringArray | filter@ name -> name == "Kate" | map@ name -> "Hello $name";
+String[] mapped = stringArray | filter_ name -> name == "Kate" | map_ name -> "Hello $name"
 ```
 
 ## 11.2. Sequences
@@ -893,27 +893,27 @@ Let's say we have a `Console` module in `somepackage` and `somepackage2` and we 
 
 **First option**
 ```scala
-somepackage.Console.log@ "hello";
+somepackage.Console.log_ "hello"
 ```
 
 **Second option**
 ```csharp
-namespace somepackage;
+namespace somepackage
 
-Console.log@ "hello";
+Console.log_ "hello"
 ```
 
 ## 13.1. Flat namespaces
-Sometimes you don't want to write out the module's name everytime you call a function from it. eg. `Module.function@ input`
+Sometimes you don't want to write out the module's name everytime you call a function from it. eg. `Module.function_ input`
 In this case, flat namespaces help.
 
 ```csharp
-flat namespace somepackage.Console;
+flat namespace somepackage.Console
 
-log@ "hello";
+log_ "hello"
 
 // But we can still call via the normal way as well.
-Console.log@ "hello" 
+Console.log_ "hello" 
 ```
 
 # 14. Java interoperability
@@ -933,17 +933,17 @@ package org.example.java
 
 class NullObjectClass {
     public static Object getNullObject() {
-        retrun null;
+        retrun null
     }
 }
 ```
 
 **BLAST code**
 ```scala
-Object nullObject = NullObjectClass.getNullObject@;
-nullObject.someMethod@ ❌ // Runtime error
+Object nullObject = NullObjectClass.getNullObject_
+nullObject.someMethod_ ❌ // Runtime error
 
-nullObject??.someMethod@ ✔️ // No problem
+nullObject??.someMethod_ ✔️ // No problem
 ```
 
 **The conclusion is that developer must take care when using third party java libraries**
@@ -953,8 +953,8 @@ nullObject??.someMethod@ ✔️ // No problem
 The exception handling much cleaner and simpler than in other languages. There is no try-catch, only ***handle(..) {}***
 
 ```scala
-methodThatThrowsCustomException();
-methodThatThrowsCustomException2();
+methodThatThrowsCustomException()
+methodThatThrowsCustomException2()
 
 handle(CustomException | CustomException2 e) {
     // do ex handling here..
@@ -982,13 +982,13 @@ Sometimes we don't want to deal with exceptions. Check the next example how to u
 
 ```java
 int exceptionalCall() {
-    throw <RuntimeException>{};
+    throw <RuntimeException>{}
 }
 
-Optional<int> integer = handle(exceptionalCall@, ExceptionType1 | ExceptionType2 | ...);
+Optional<int> integer = handle(exceptionalCall_, ExceptionType1 | ExceptionType2 | ...)
 
 // To give custom default value
-Optional<int> integer = handle(exceptionalCall@, ExceptionType1 | ExceptionType2 | ...): 13;
+Optional<int> integer = handle(exceptionalCall_, ExceptionType1 | ExceptionType2 | ...): 13
 ```
 
 In this example handle returns the called method's value, otherwise empty optional, if default value not specified.
@@ -1034,10 +1034,10 @@ We will use the same object as example
 String out = somethingInstance(int customIntVariableName, *, String customStringVariableName): "${customIntVariableName}${customStringVariableName}"
 
 // Use in method call
-method@ somethingInstance(int customIntVariableName, *, String customStringVariableName): "${customIntVariableName}${customStringVariableName}"
+method_ somethingInstance(int customIntVariableName, *, String customStringVariableName): "${customIntVariableName}${customStringVariableName}"
 
 // Use in pipe expression
-somethingInstance(int customIntVariableName, *, String customStringVariableName): "${customIntVariableName}${customStringVariableName}" | method@
+somethingInstance(int customIntVariableName, *, String customStringVariableName): "${customIntVariableName}${customStringVariableName}" | method_
 
 // etc..
 ```
@@ -1052,13 +1052,13 @@ Here is an example how to register an event:
 
 ```scala
 on(BlastEvent e) {
-  Console.log@ "Event run {{e}}"
+  Console.log_ "Event run {{e}}"
 }
 ```
 Or run the same logic with multiple events:
 ```scala
 on(CustomBlastEvent1 | CustomBlastEvent2 e) {
-    Console.log@ "Event run {{e}}"
+    Console.log_ "Event run {{e}}"
 }
 ```
 
@@ -1089,7 +1089,7 @@ play {
 Play will fire a PlayFinishEvent after completion.
 ```scala
 PlayFinishEvent animationFinishedEvent = play {
-    Animation.playNextFrame@
+    Animation.playNextFrame_
 } while Animation.hasFrame
 
 on(animationFinishedEvent) {
@@ -1102,14 +1102,14 @@ It is possible to create infinite loops as well.
 In this case no events getting spawned.
 ```scala
 play {
-   GameEngine.update@
+   GameEngine.update_
 }
 ```
 It is possible to play something until an event happens
 **syntax:** `play {<statements>} until <event> [| <event>]*`
 ```scala
 play {
-   GameEngine.update@
+   GameEngine.update_
 } until GameStoppedEvent
 ```
 
