@@ -254,7 +254,16 @@ methodThatReturnsComplexObject_ 1, `2.complexObjectParam`
 ```scala
 methodThatReturnsComplexObject(1, 2).complexObjectParam
 ```
+**Or simply use the pipe operator:**
+```scala
+(1, 2 | methodThatReturnsComplexObject).complexObjectParam
+```
 I mean.. it's up to you.
+
+**(FUTURE PLAN) pipe operator will replace the dot ('.') member access operator to simplify the above calls further:**
+```scala
+1, 2 | methodThatReturnsComplexObject | complexObjectParam
+```
 
 ## 4.3. Async methods
 Async methods declared using the `async` keyword or setting the return value to `Future`
