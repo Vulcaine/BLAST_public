@@ -18,9 +18,8 @@
 4. [Defining methods](#4-defining-methods)
     1. [Default arguments](#4-1-default-arguments)
     2. [Calling methods](#4-2-calling-methods)
-    3. [Cascade notation](#4-3-cascade-notation)
-    4. [Async methods](#4-4-async-methods)
-    5. [Varargs](#4-5-Varargs)
+    3. [Async methods](#4-4-async-methods)
+    4. [Varargs](#4-5-Varargs)
 5. [Optional unlocking](#5-optional-unlocking)
 6. [Pipe operator](#6-pipe-operator)
 7. [Callbacks](#7-callbacks)
@@ -77,12 +76,9 @@ int itsFour = if (
   a == 3 ? 4
 ) // 4
 
-int itsZero = a match (
-   /^abc/ ? 4
-   5 ? 6
+int itsZero = if (
+    a match /^abc/ ? 4
 ) // defaults to 0
-
-boolean itsFalse = a match /^abc/ // false
 ```
 
 ## 1.1 Block initialization
@@ -94,7 +90,7 @@ An efficient way to create heavy objects on-the-fly.
 int c = {
     int b = 4
     return 3 + b
-} // resources are closed and memory freed after the block initialization
+} // resources are closed and objects are becoming marked to be freed after the block initialization
 ```
 
 # 2. Creating objects
@@ -113,40 +109,43 @@ ArgumentOption[] options = [
 
 ## 2.1 Constructor parameter unlocking
 
-BLAST knows exactly what you want. Therefore the compiler can infer the nested constructor types 
+BLAST knows exactly what you want (not exactly, but yeah..). Therefore the compiler can infer the nested constructor types 
 
-### Example
-Lets assume we have an `A(B, C)` class with `B(String param)`, `C(D param)` and `D(Enum param1, Integer param2, Boolean param3)`.
-We would normally instantiate this object by: `new A(new B("Hello World"), new C(new D(Enum.Example, 0, false)))`
-BLAST gives us a simpler solution which is the below:
+### assignment constructors
 
-```scala
-A object = { "Hello World", { Enum.example, 0, false } }
+#### Example: Define an assigment constructor
+```scala Example.bl
+String name
+constructor=(String name): { name: name }
+```
+This constructor can be invoked as below, which gives us the constructor unlocking possibility.
+
+```scala Main.bl
+Example = "ExampleName"
 ```
 
-The unlocking option above only works if there is no `(String, Enum, D param)` constructor defined which is ambigious. In that case, compile error thrown.
+#### Example: Constructor unlocking
 
-### Single parameter example
+Imagine we have the following method:
 
-If the class has only 1 parameter in its constructor then the brackets are negligible.
-
-```scala
-// constructor: A(String example)
-A object = "Hello World"
-
-// equivalent to: A object = { "Hello World" }
-// and equivalent to: A object = { example: "Hello World" }
+```scala Main.bl
+void method(Example example) { ... }
 ```
 
-### No arg example
+We can use the constructor unlocking to call this, like:
 
-Without args the brackets are mandatory.
+```scala Main.bl
+method("ExampleName") // which is equivalent to method({name: "ExampleName"})
+```
+
+### No arg constructor
+
+To initialize objects without args, the brackets are mandatory.
 
 ```scala
 // constructor: A()
 A object = {}
 ```
-
 
 ### Polymorphism
 
@@ -257,19 +256,7 @@ methodThatReturnsComplexObject(1, 2).complexObjectParam
 ```
 I mean.. it's up to you.
 
-## 4.3. Cascde notation
-
-The `cascade notation operator` helps overcome the above issue.
-
-To call multiple methods with `_` operator:
-
-```scala
-Object.method_ arg
-      ..method2_ arg
-      ..method3_ arg
-```
-
-## 4.4. Async methods
+## 4.3. Async methods
 Async methods declared using the `async` keyword or setting the return value to `Future`
 
 ```csharp
@@ -327,7 +314,7 @@ Future awaitable = asyncMethod_
 await awaitable
 ```
 
-# 4.5. Varargs
+# 4.4. Varargs
 
 BLAST, Just like in Java can handle varargs. See the example below:
 ```scala
